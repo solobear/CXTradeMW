@@ -28,12 +28,12 @@
     
     CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"182.254.133.20", 7190, &readStream, &writeStream);
     
-    inputStream = (NSInputStream *)readStream; // ivar
+    inputStream = (NSInputStream *)readStream; // 输入流
     [inputStream setDelegate:self];
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
     
-    outputStream = (NSOutputStream *)writeStream; // ivar
+    outputStream = (NSOutputStream *)writeStream; // 输出流
     [outputStream setDelegate:self];
     [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [outputStream open];
@@ -64,7 +64,7 @@
         if ([outputStream hasSpaceAvailable]){
             NSData *data = [[NSData alloc] initWithData:[jsonMsg dataUsingEncoding:NSASCIIStringEncoding]];
             [outputStream write:[data bytes] maxLength:[data length]];
-            NSLog(@"write command to dv: %@", jsonMsg);
+            NSLog(@"write command to MW: %@", jsonMsg);
             return YES;
         }
     }
@@ -74,24 +74,10 @@
 
 //Socket回调，可以知道Socket的连接状态，收到Server端发来的数据等
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
-    switch (streamEvent) {
-        case NSStreamEventNone:
-            [self notifyConnectedFailed];
-            NSLog(@"can not connect to socket");
-            break;
-        case NSStreamEventOpenCompleted:
-            if (theStream == inputStream)
-            {
-                [self notifyConnected];
-            }
-            NSLog(@"Stream opened");
-            break;
-        case NSStreamEventHasSpaceAvailable: {
-            break;
-        }
+    switch (streamEvent) 
         case NSStreamEventHasBytesAvailable:
             if (theStream == inputStream) {
-                uint8_t buffer[1024];
+                uint8_t buffer[4096];
                 int len;
                 
                 while ([inputStream hasBytesAvailable]) {
@@ -99,7 +85,7 @@
                     
                     if (len > 0) {
                         //一行作位一次会话传给外边解析 Iterator buff.
-                        uint8_t tmp_buffer[1024];
+                        uint8_t tmp_buffer[4096];
                         int tmp_buffer_start = 0;
                         for (int i = 0; i < len; ++i)
                         {
