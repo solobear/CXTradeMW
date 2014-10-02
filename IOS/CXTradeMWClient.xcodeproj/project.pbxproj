@@ -1,0 +1,399 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4AAF86CC19DCC231006FD18F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AAF86CB19DCC231006FD18F /* Foundation.framework */; };
+		4AAF86D219DCC231006FD18F /* CXTradeMWClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAF86D119DCC231006FD18F /* CXTradeMWClient.m */; };
+		4AAF86DA19DCC231006FD18F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AAF86D919DCC231006FD18F /* SenTestingKit.framework */; };
+		4AAF86DD19DCC231006FD18F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AAF86CB19DCC231006FD18F /* Foundation.framework */; };
+		4AAF86E219DCC231006FD18F /* libCXTradeMWClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AAF86C819DCC231006FD18F /* libCXTradeMWClient.a */; };
+		4AAF86E819DCC231006FD18F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4AAF86E619DCC231006FD18F /* InfoPlist.strings */; };
+		4AAF86EA19DCC231006FD18F /* CXTradeMWClientTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 4AAF86E919DCC231006FD18F /* CXTradeMWClientTests.h */; };
+		4AAF86EC19DCC231006FD18F /* CXTradeMWClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AAF86EB19DCC231006FD18F /* CXTradeMWClientTests.m */; };
+		4ABC30B419DDAABA00B0BBE3 /* CXTradeMWSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABC30B319DDAABA00B0BBE3 /* CXTradeMWSocket.h */; };
+		4ABC30B619DDAAC500B0BBE3 /* CXTradeMWSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ABC30B519DDAAC500B0BBE3 /* CXTradeMWSocket.m */; };
+		4AC18DF219DD90BF00D99ACA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AC18DF119DD90BF00D99ACA /* CFNetwork.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4AAF86E019DCC231006FD18F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4AAF86BF19DCC230006FD18F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4AAF86C719DCC231006FD18F;
+			remoteInfo = CXTradeMWClient;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4AAF86C819DCC231006FD18F /* libCXTradeMWClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCXTradeMWClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AAF86CB19DCC231006FD18F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4AAF86D019DCC231006FD18F /* CXTradeMWClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXTradeMWClient.h; sourceTree = "<group>"; };
+		4AAF86D119DCC231006FD18F /* CXTradeMWClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CXTradeMWClient.m; sourceTree = "<group>"; };
+		4AAF86D819DCC231006FD18F /* CXTradeMWClientTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CXTradeMWClientTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AAF86D919DCC231006FD18F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		4AAF86E519DCC231006FD18F /* CXTradeMWClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CXTradeMWClientTests-Info.plist"; sourceTree = "<group>"; };
+		4AAF86E719DCC231006FD18F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4AAF86E919DCC231006FD18F /* CXTradeMWClientTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXTradeMWClientTests.h; sourceTree = "<group>"; };
+		4AAF86EB19DCC231006FD18F /* CXTradeMWClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CXTradeMWClientTests.m; sourceTree = "<group>"; };
+		4ABC30B319DDAABA00B0BBE3 /* CXTradeMWSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXTradeMWSocket.h; sourceTree = "<group>"; };
+		4ABC30B519DDAAC500B0BBE3 /* CXTradeMWSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXTradeMWSocket.m; sourceTree = "<group>"; };
+		4AC18DF119DD90BF00D99ACA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4AAF86C519DCC231006FD18F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AC18DF219DD90BF00D99ACA /* CFNetwork.framework in Frameworks */,
+				4AAF86CC19DCC231006FD18F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AAF86D419DCC231006FD18F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AAF86DA19DCC231006FD18F /* SenTestingKit.framework in Frameworks */,
+				4AAF86DD19DCC231006FD18F /* Foundation.framework in Frameworks */,
+				4AAF86E219DCC231006FD18F /* libCXTradeMWClient.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4AAF86BD19DCC230006FD18F = {
+			isa = PBXGroup;
+			children = (
+				4AAF86CD19DCC231006FD18F /* CXTradeMWClient */,
+				4AAF86E319DCC231006FD18F /* CXTradeMWClientTests */,
+				4AAF86CA19DCC231006FD18F /* Frameworks */,
+				4AAF86C919DCC231006FD18F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4AAF86C919DCC231006FD18F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4AAF86C819DCC231006FD18F /* libCXTradeMWClient.a */,
+				4AAF86D819DCC231006FD18F /* CXTradeMWClientTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4AAF86CA19DCC231006FD18F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4AC18DF119DD90BF00D99ACA /* CFNetwork.framework */,
+				4AAF86CB19DCC231006FD18F /* Foundation.framework */,
+				4AAF86D919DCC231006FD18F /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4AAF86CD19DCC231006FD18F /* CXTradeMWClient */ = {
+			isa = PBXGroup;
+			children = (
+				4ABC30B519DDAAC500B0BBE3 /* CXTradeMWSocket.m */,
+				4ABC30B319DDAABA00B0BBE3 /* CXTradeMWSocket.h */,
+				4AAF86D019DCC231006FD18F /* CXTradeMWClient.h */,
+				4AAF86D119DCC231006FD18F /* CXTradeMWClient.m */,
+			);
+			path = CXTradeMWClient;
+			sourceTree = "<group>";
+		};
+		4AAF86E319DCC231006FD18F /* CXTradeMWClientTests */ = {
+			isa = PBXGroup;
+			children = (
+				4AAF86E919DCC231006FD18F /* CXTradeMWClientTests.h */,
+				4AAF86EB19DCC231006FD18F /* CXTradeMWClientTests.m */,
+				4AAF86E419DCC231006FD18F /* Supporting Files */,
+			);
+			path = CXTradeMWClientTests;
+			sourceTree = "<group>";
+		};
+		4AAF86E419DCC231006FD18F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4AAF86E519DCC231006FD18F /* CXTradeMWClientTests-Info.plist */,
+				4AAF86E619DCC231006FD18F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4AAF86C619DCC231006FD18F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4ABC30B419DDAABA00B0BBE3 /* CXTradeMWSocket.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4AAF86C719DCC231006FD18F /* CXTradeMWClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4AAF86EF19DCC231006FD18F /* Build configuration list for PBXNativeTarget "CXTradeMWClient" */;
+			buildPhases = (
+				4AAF86C419DCC231006FD18F /* Sources */,
+				4AAF86C519DCC231006FD18F /* Frameworks */,
+				4AAF86C619DCC231006FD18F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CXTradeMWClient;
+			productName = CXTradeMWClient;
+			productReference = 4AAF86C819DCC231006FD18F /* libCXTradeMWClient.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		4AAF86D719DCC231006FD18F /* CXTradeMWClientTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4AAF86F219DCC231006FD18F /* Build configuration list for PBXNativeTarget "CXTradeMWClientTests" */;
+			buildPhases = (
+				4AAF86D319DCC231006FD18F /* Sources */,
+				4AAF86D419DCC231006FD18F /* Frameworks */,
+				4AAF86D519DCC231006FD18F /* Resources */,
+				4AAF86D619DCC231006FD18F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4AAF86E119DCC231006FD18F /* PBXTargetDependency */,
+			);
+			name = CXTradeMWClientTests;
+			productName = CXTradeMWClientTests;
+			productReference = 4AAF86D819DCC231006FD18F /* CXTradeMWClientTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4AAF86BF19DCC230006FD18F /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 4AAF86C219DCC230006FD18F /* Build configuration list for PBXProject "CXTradeMWClient" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4AAF86BD19DCC230006FD18F;
+			productRefGroup = 4AAF86C919DCC231006FD18F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4AAF86C719DCC231006FD18F /* CXTradeMWClient */,
+				4AAF86D719DCC231006FD18F /* CXTradeMWClientTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4AAF86D519DCC231006FD18F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AAF86E819DCC231006FD18F /* InfoPlist.strings in Resources */,
+				4AAF86EA19DCC231006FD18F /* CXTradeMWClientTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4AAF86D619DCC231006FD18F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4AAF86C419DCC231006FD18F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AAF86D219DCC231006FD18F /* CXTradeMWClient.m in Sources */,
+				4ABC30B619DDAAC500B0BBE3 /* CXTradeMWSocket.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AAF86D319DCC231006FD18F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AAF86EC19DCC231006FD18F /* CXTradeMWClientTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4AAF86E119DCC231006FD18F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4AAF86C719DCC231006FD18F /* CXTradeMWClient */;
+			targetProxy = 4AAF86E019DCC231006FD18F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4AAF86E619DCC231006FD18F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4AAF86E719DCC231006FD18F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4AAF86ED19DCC231006FD18F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4AAF86EE19DCC231006FD18F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4AAF86F019DCC231006FD18F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/CXTradeMWClient.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CXTradeMWClient/CXTradeMWClient-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4AAF86F119DCC231006FD18F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/CXTradeMWClient.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CXTradeMWClient/CXTradeMWClient-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		4AAF86F319DCC231006FD18F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CXTradeMWClient/CXTradeMWClient-Prefix.pch";
+				INFOPLIST_FILE = "CXTradeMWClientTests/CXTradeMWClientTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		4AAF86F419DCC231006FD18F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CXTradeMWClient/CXTradeMWClient-Prefix.pch";
+				INFOPLIST_FILE = "CXTradeMWClientTests/CXTradeMWClientTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4AAF86C219DCC230006FD18F /* Build configuration list for PBXProject "CXTradeMWClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4AAF86ED19DCC231006FD18F /* Debug */,
+				4AAF86EE19DCC231006FD18F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4AAF86EF19DCC231006FD18F /* Build configuration list for PBXNativeTarget "CXTradeMWClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4AAF86F019DCC231006FD18F /* Debug */,
+				4AAF86F119DCC231006FD18F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4AAF86F219DCC231006FD18F /* Build configuration list for PBXNativeTarget "CXTradeMWClientTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4AAF86F319DCC231006FD18F /* Debug */,
+				4AAF86F419DCC231006FD18F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4AAF86BF19DCC230006FD18F /* Project object */;
+}
