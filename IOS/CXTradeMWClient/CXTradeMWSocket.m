@@ -113,6 +113,20 @@
                 
             }
             break;
+        case NSStreamEventNone:
+            [self notifyConnectedFailed];
+            NSLog(@"can not connect to socket");
+            break;
+        case NSStreamEventOpenCompleted:
+            if (theStream == inputStream)
+            {
+                [self notifyConnected];
+            }
+            NSLog(@"Stream opened");
+            break;
+        case NSStreamEventHasSpaceAvailable: {
+            break;
+        }
         case NSStreamEventErrorOccurred:
             NSLog(@"Can not connect to the host!");
             //            [self notifyConnectedFailed];
