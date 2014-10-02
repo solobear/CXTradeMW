@@ -1,7 +1,7 @@
 CXTradeMW
 =========
 
-Middleware for CXTradeAPI, including both Android and IOS interface.
+Middleware for CXTradeAPI, and also including both Android and IOS interface.
 
 CXTradeMW：中间件 in C++
 
