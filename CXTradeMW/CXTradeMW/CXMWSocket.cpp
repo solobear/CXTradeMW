@@ -434,7 +434,7 @@ void CXMWSocket::Login()
 		pApi->ReqUserLogin(u, p);
 
 		pApi->Join();
-		printf("--退出CX交易接口\n");
+		cout << "--退出CX交易接口" << endl;
 	}
 	catch (std::exception &e){
 		cout << e.what() << endl;
