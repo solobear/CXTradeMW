@@ -7,6 +7,7 @@
 //
 
 #import "CXTradeMWSocket.h"
+#import "JSONKit.h"
 
 @implementation CXTradeMWSocket
 
@@ -57,18 +58,32 @@
 }
 
 //发送命令给Server
-- (BOOL)sendCommand:(NSString *)jsonMsg {
+- (void)sendCommand:(int)commandID andJsonReq:(NSString *)jsonReq {
     while (true) {
         if ([outputStream hasSpaceAvailable]){
-            NSData *data = [[NSData alloc] initWithData:[jsonMsg dataUsingEncoding:NSASCIIStringEncoding]];
+            NSMutableDictionary *jsonDic = [NSMutableDictionary dictionary];
+            [jsonDic setObject:[NSNumber numberWithInt:commandID] forKey:@"commandID"];
+            if(jsonReq!=nil){
+                [jsonDic setObject:jsonReq forKey:@"jsonParams"];
+            }
+            NSString *jsonReqMsg = [jsonDic JSONString];
+            
+            //
+            NSData *data = [[NSData alloc] initWithData:[jsonReqMsg dataUsingEncoding:NSUTF8StringEncoding]];
             [outputStream write:[data bytes] maxLength:[data length]];
-            NSLog(@"write command to MW: %@", jsonMsg);
-            return YES;
+            NSLog(@"Write command to MW: %@", jsonReqMsg);
+            break;
         }
     }
-    
-    return NO;
 }
+
+
+//发送命令给Server
+- (void)sendCommand:(int)commandID {
+    [self sendCommand: commandID andJsonReq:nil];    
+}
+
+
 
 //Socket回调，可以知道Socket的连接状态，收到Server端发来的数据等
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
