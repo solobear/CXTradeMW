@@ -45,7 +45,7 @@
 -(void) connect:(NSString*) host andPort:(int)port;
 -(void) close;
 
-// Login
+// CXTrade Call
 -(void) login:(NSString*) username andPassword:(NSString*)password;
 -(void) reqQryCommodity;
 

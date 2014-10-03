@@ -22,22 +22,21 @@
 - (void)tearDown
 {
     // Tear-down code here.
-    [NSThread sleepForTimeInterval:10];
-    
+    [NSThread sleepForTimeInterval:3];
     NSLog(@"Exit...");
     [client close];
-    
     NSLog(@"Done!");
+    
     [super tearDown];
 }
 
 - (void)testExample
 {
-    
+    [NSThread sleepForTimeInterval:1];
     NSLog(@"Login...");
     [client login: @"003098765432103" andPassword:@"123456"];
     
-    [NSThread sleepForTimeInterval:4];
+    [NSThread sleepForTimeInterval:2];
     NSLog(@"Qry Commodity ...");
     [client reqQryCommodity];
 }

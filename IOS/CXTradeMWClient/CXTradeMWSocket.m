@@ -9,6 +9,7 @@
 #import "CXTradeMWSocket.h"
 #import "JSONKit.h"
 
+//中间件Socket连接，不可直接调用。
 @implementation CXTradeMWSocket
 
 - (id)init
@@ -23,29 +24,45 @@
 
 
 //调用此接口与socket连接
--(void) connect:(NSString*) host andPort:(int)port{
+-(void) connect:(NSString*) host andPort:(int)port{  
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
     
+    // 连接
     CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)host, port, &readStream, &writeStream);
-    
     inputStream = (NSInputStream *)readStream; // 输入流
+    outputStream = (NSOutputStream *)writeStream; // 输出流
+    
+    // 启动线程
+    NSThread* backgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(startStreamThread) object:nil];
+    [backgroundThread start];
+    
+    // Log
+    NSLog(@"Connectting...");
+}
+
+
+
+//启动单独的线程处理输入流
+- (void)startStreamThread{
+    // 输入流
     [inputStream setDelegate:self];
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [inputStream open];
+    [inputStream open];  
     
-    outputStream = (NSOutputStream *)writeStream; // 输出流
+    // 输出流
     [outputStream setDelegate:self];
     [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [outputStream open];
     
-    NSLog(@"Connectting...");
-    
+    // 启动线程
+    [[NSRunLoop currentRunLoop] run];
 }
+
+
 
 //调用此接口与socket断开连接
 - (void)disConnect{
-    
     if (inputStream){
         [inputStream close];
         inputStream = nil;
@@ -56,6 +73,14 @@
         outputStream = nil;
     }
 }
+
+
+
+//发送命令给Server
+- (void)sendCommand:(int)commandID {
+    [self sendCommand: commandID andJsonReq:nil];    
+}
+
 
 //发送命令给Server
 - (void)sendCommand:(int)commandID andJsonReq:(NSString *)jsonReq {
@@ -78,15 +103,13 @@
 }
 
 
-//发送命令给Server
-- (void)sendCommand:(int)commandID {
-    [self sendCommand: commandID andJsonReq:nil];    
-}
-
 
 
 //Socket回调，可以知道Socket的连接状态，收到Server端发来的数据等
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
+    
+    //NSLog(@"Stream event: %i", streamEvent);  
+    
     switch (streamEvent) {
         case NSStreamEventHasBytesAvailable:
             if (theStream == inputStream) {
@@ -97,62 +120,38 @@
                     len = [inputStream read:buffer maxLength:sizeof(buffer)];
                     
                     if (len > 0) {
-                        //一行作位一次会话传给外边解析 Iterator buff.
-                        uint8_t tmp_buffer[4096];
-                        int tmp_buffer_start = 0;
-                        for (int i = 0; i < len; ++i)
-                        {
-                            if ('\n' == buffer[i])
-                            {
-                                for (int j = tmp_buffer_start; j < i + 1; ++j)
-                                {
-                                    tmp_buffer[j - tmp_buffer_start] = buffer[j];
-                                }
-                                NSString *output = [[NSString alloc] initWithBytes:tmp_buffer length:(i - tmp_buffer_start + 1) encoding:NSASCIIStringEncoding];
-                                
-                                if (nil != output) {
-                                    [self notifyNewMessage:output];
-                                    NSLog(@"s: %@", output);
-                                }
-                                
-                                [output release];
-                                
-                                memset(tmp_buffer, 0, sizeof(uint8_t) * 1024);
-                                tmp_buffer_start = i + 1;
-                            }
+                        NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+                        NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:enc];
+                        if (nil != output) {
+                            NSLog(@"返回: %@", output);
+                            //[self notifyNewMessage:output];
                         }
+                        [output release];    
                     }
                 }
             }
             break;
-        case NSStreamEventNone:
-            [self notifyConnectedFailed];
-            NSLog(@"can not connect to socket");
-            break;
         case NSStreamEventOpenCompleted:
-            if (theStream == inputStream)
-            {
-                [self notifyConnected];
-            }
-            NSLog(@"Stream opened");
             break;
-        case NSStreamEventHasSpaceAvailable: {
-            break;
-        }
         case NSStreamEventErrorOccurred:
             NSLog(@"Can not connect to the host!");
-            //            [self notifyConnectedFailed];
+            [self cleanUpStream:theStream];
             break;
         case NSStreamEventEndEncountered:
             NSLog(@"Closing stream...");
-            [theStream close];
-            [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-            [theStream release];
-            theStream = nil;
+            [self cleanUpStream:theStream];
             break;
         default:
-            NSLog(@"Unknown event");
+            break;
     }
+}
+
+// CleanUp
+- (void)cleanUpStream:(NSStream *)stream
+{
+    [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [stream close];
+    stream = nil;
 }
 
 @end

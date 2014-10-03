@@ -9,6 +9,7 @@
 #import "CXTradeMWClient.h"
 #import "JSONKit.h"
 
+// 中间件连接接口
 @implementation CXTradeMWClient
 
 //Init
@@ -23,25 +24,23 @@
 }
 
 
-// Connect
+// 连接中间件
 -(void) connect:(NSString*) host andPort:(int)port{
     socket = [[CXTradeMWSocket alloc] init];
     [socket connect: host andPort:port];   
 }
 
-// Close
+// 断开中间件连接
 -(void) close{
-    // Close 
+    // 发送退出交易请求
     [socket sendCommand:Req_Close];
     
-    // disConnect
+    // 断开连接
     [socket disConnect];
 }
 
-// SendMsg
 
-
-// Login
+// 登陆
 -(void) login:(NSString*) username andPassword:(NSString*)password{
     NSMutableDictionary *jsonDic = [NSMutableDictionary dictionary];
     [jsonDic setObject:username forKey:@"username"];
