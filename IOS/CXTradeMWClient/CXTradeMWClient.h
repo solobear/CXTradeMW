@@ -7,7 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CXTradeMWSocket.h"
 
-@interface CXTradeMWClient : NSObject
+@interface CXTradeMWClient : NSObject{
+    CXTradeMWSocket* socket;
+}
+
+-(void) connect:(NSString*) host andPort:(int)port;
+-(void) close;
+
+// Login
+-(void) login:(NSString*) username andPassword:(NSString*)password;
+-(void) reqQryCommodity;
 
 @end

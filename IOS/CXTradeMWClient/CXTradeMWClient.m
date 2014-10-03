@@ -7,17 +7,48 @@
 //
 
 #import "CXTradeMWClient.h"
+#import "CXTradeMWReqCommand.h"
 
 @implementation CXTradeMWClient
 
+//Init
 - (id)init
 {
     self = [super init];
     if (self) {
-        // Initialization code here.
+        //
     }
     
     return self;
+}
+
+
+// Connect
+-(void) connect:(NSString*) host andPort:(int)port{
+    socket = [[CXTradeMWSocket alloc] init];
+    [socket connect: host andPort:port];   
+}
+
+// Close
+-(void) close{
+    // Close 
+    [socket sendCommand:@"asfddasdf"];
+    
+    // disConnect
+    [socket disConnect];
+}
+
+// SendMsg
+
+
+// Login
+-(void) login:(NSString*) username andPassword:(NSString*)password{
+    [socket sendCommand:@"asfddasdf"];
+}
+
+// Req QryCommodity
+-(void) reqQryCommodity{
+    
 }
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "CXTradeMWClientTests.h"
-#import "CXTradeMWSocket.h"
 
 @implementation CXTradeMWClientTests
 
@@ -16,14 +15,15 @@
     [super setUp];
     
     // Set-up code here.
-    socket = [[CXTradeMWSocket alloc] init];
-    [socket connect];
+    client = [[CXTradeMWClient alloc] init];
+    [client connect: @"182.254.133.20" andPort:7190];
 }
 
 - (void)tearDown
 {
     // Tear-down code here.
-    [socket disConnect];
+    [NSThread sleepForTimeInterval:10];
+    [client close];
     NSLog(@"Exit...");
     
     [super tearDown];
@@ -32,10 +32,12 @@
 - (void)testExample
 {
     
-    NSLog(@"Testing...");
-    [socket sendCommand:@"{\"ID\":\"Eric\"}"];
+    NSLog(@"Login...");
+    [client login: @"003098765432103" andPassword:@"123456"];
     
-    [NSThread sleepForTimeInterval:6];
+    [NSThread sleepForTimeInterval:4];
+    NSLog(@"Qry Commodity ...");
+    [client reqQryCommodity];
 }
 
 @end

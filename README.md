@@ -10,4 +10,3 @@ Middleware for CXTradeAPI, and also including Android and IOS interface.
 * Android： Java client
 
 * IOS： Objective-c client
-

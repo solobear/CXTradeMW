@@ -13,8 +13,9 @@
     NSOutputStream *outputStream;
 }
 
-- (void)connect;
+- (void)connect:(NSString*) host andPort:(int)port;
 - (void)disConnect;
+
 - (BOOL)sendCommand:(NSString *)jsonMsg;  //发送命令给Server
 
 @end

@@ -22,11 +22,11 @@
 
 
 //调用此接口与socket连接
--(void) connect:(NSString*) host andPort:(int)port{
+- (void)connect{
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
     
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)host, port, &readStream, &writeStream);
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"182.254.133.20", 7190, &readStream, &writeStream);
     
     inputStream = (NSInputStream *)readStream; // 输入流
     [inputStream setDelegate:self];
@@ -39,12 +39,12 @@
     [outputStream open];
     
     NSLog(@"Connectting...");
-    
+
 }
 
 //调用此接口与socket断开连接
 - (void)disConnect{
-    
+
     if (inputStream){
         [inputStream close];
         inputStream = nil;
@@ -54,6 +54,8 @@
         [outputStream close];
         outputStream = nil;
     }
+    
+    [self notifyDisConnected];
 }
 
 //发送命令给Server
@@ -72,7 +74,7 @@
 
 //Socket回调，可以知道Socket的连接状态，收到Server端发来的数据等
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
-    switch (streamEvent) {
+    switch (streamEvent) 
         case NSStreamEventHasBytesAvailable:
             if (theStream == inputStream) {
                 uint8_t buffer[4096];
@@ -108,6 +110,7 @@
                         }
                     }
                 }
+                
             }
             break;
         case NSStreamEventNone:

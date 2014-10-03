@@ -7,9 +7,10 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "CXTradeMWSocket.h"
+#import "CXTradeMWClient.h"
 
 @interface CXTradeMWClientTests : SenTestCase{
-    CXTradeMWSocket* socket;
+    CXTradeMWClient* client;
 }
+
 @end
