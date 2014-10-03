@@ -407,7 +407,9 @@ void CXMWSocket::Login()
 {
 	try{
 		CXUtils::PrintCurrentDir();
-		pApi = CTradeApi::CreateTradeApi("./log/");
+		char* dir = "./log/";
+		CXUtils::CheckDir(dir);
+		pApi = CTradeApi::CreateTradeApi(dir);
 		pSpi = new CXTradeSpiImpl(pApi, this);
 		pApi->RegisterSpi(pSpi);
 

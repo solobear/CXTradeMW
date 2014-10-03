@@ -30,7 +30,8 @@ public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> 
 		logger.info("--连接中间件");
 		CXTradeMWSpi spi = new CXTradeMWSpiImpl();
 		client = new CXTradeMWClient(spi);
-		client.connect("182.254.133.20", 7190); //10.0.2.2
+		//client.connect("182.254.133.20", 7190); 
+		client.connect("10.0.2.2", 7190);//Localhost
 	}
 
 	/*
