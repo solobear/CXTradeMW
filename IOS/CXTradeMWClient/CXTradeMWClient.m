@@ -7,7 +7,7 @@
 //
 
 #import "CXTradeMWClient.h"
-#import "CXTradeMWReqCommand.h"
+#import "JSONKit.h"
 
 @implementation CXTradeMWClient
 
@@ -32,7 +32,7 @@
 // Close
 -(void) close{
     // Close 
-    [socket sendCommand:@"asfddasdf"];
+    [socket sendCommand:Req_Close];
     
     // disConnect
     [socket disConnect];
@@ -43,12 +43,17 @@
 
 // Login
 -(void) login:(NSString*) username andPassword:(NSString*)password{
-    [socket sendCommand:@"asfddasdf"];
+    NSMutableDictionary *jsonDic = [NSMutableDictionary dictionary];
+    [jsonDic setObject:username forKey:@"username"];
+    [jsonDic setObject:password forKey:@"password"];
+    NSString *jsonReq = [jsonDic JSONString];
+    
+    [socket sendCommand:Req_UserLogin andJsonReq:jsonReq];
 }
 
 // Req QryCommodity
 -(void) reqQryCommodity{
-    
+    [socket sendCommand:ReqQry_Commodity];
 }
 
 @end

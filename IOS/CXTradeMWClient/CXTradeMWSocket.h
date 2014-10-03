@@ -16,6 +16,8 @@
 - (void)connect:(NSString*) host andPort:(int)port;
 - (void)disConnect;
 
-- (BOOL)sendCommand:(NSString *)jsonMsg;  //发送命令给Server
+//发送命令给Server
+- (void)sendCommand:(int)commandID andJsonReq:(NSString *)jsonReq; 
+- (void)sendCommand:(int)commandID;
 
 @end

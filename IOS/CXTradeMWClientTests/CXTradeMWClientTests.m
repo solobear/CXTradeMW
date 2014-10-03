@@ -23,9 +23,11 @@
 {
     // Tear-down code here.
     [NSThread sleepForTimeInterval:10];
-    [client close];
-    NSLog(@"Exit...");
     
+    NSLog(@"Exit...");
+    [client close];
+    
+    NSLog(@"Done!");
     [super tearDown];
 }
 
