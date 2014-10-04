@@ -8,9 +8,12 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "CXTradeMWClient.h"
+#import "CXTradeMWSpi.h"
 
+// 
 @interface CXTradeMWClientTests : SenTestCase{
     CXTradeMWClient* client;
+    CXTradeMWSpi* spi;
 }
 
 @end

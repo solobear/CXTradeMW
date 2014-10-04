@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A0A3AB719DF2E3E00136499 /* CXTradeMWSpi.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A0A3AB519DF2E3E00136499 /* CXTradeMWSpi.h */; };
+		4A0A3AB819DF2E3E00136499 /* CXTradeMWSpi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A3AB619DF2E3E00136499 /* CXTradeMWSpi.m */; };
+		4A0A3ABC19DF33C700136499 /* CXTradeSpiImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A0A3ABA19DF33C700136499 /* CXTradeSpiImpl.h */; };
+		4A0A3ABD19DF33C700136499 /* CXTradeSpiImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A3ABB19DF33C700136499 /* CXTradeSpiImpl.m */; };
 		4A727A8619DEA5AE005A4AF5 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A727A8519DEA5AE005A4AF5 /* JSONKit.h */; };
 		4A727A8819DEA5B7005A4AF5 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A727A8719DEA5B7005A4AF5 /* JSONKit.m */; };
 		4A727A8919DEB16E005A4AF5 /* CXTradeMWClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AAF86D019DCC231006FD18F /* CXTradeMWClient.h */; };
@@ -34,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A0A3AB519DF2E3E00136499 /* CXTradeMWSpi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXTradeMWSpi.h; sourceTree = "<group>"; };
+		4A0A3AB619DF2E3E00136499 /* CXTradeMWSpi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXTradeMWSpi.m; sourceTree = "<group>"; };
+		4A0A3ABA19DF33C700136499 /* CXTradeSpiImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXTradeSpiImpl.h; sourceTree = "<group>"; };
+		4A0A3ABB19DF33C700136499 /* CXTradeSpiImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXTradeSpiImpl.m; sourceTree = "<group>"; };
 		4A727A8519DEA5AE005A4AF5 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		4A727A8719DEA5B7005A4AF5 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		4AAF86C819DCC231006FD18F /* libCXTradeMWClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCXTradeMWClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +120,8 @@
 				4ABC30B319DDAABA00B0BBE3 /* CXTradeMWSocket.h */,
 				4AAF86D019DCC231006FD18F /* CXTradeMWClient.h */,
 				4AAF86D119DCC231006FD18F /* CXTradeMWClient.m */,
+				4A0A3AB519DF2E3E00136499 /* CXTradeMWSpi.h */,
+				4A0A3AB619DF2E3E00136499 /* CXTradeMWSpi.m */,
 			);
 			path = CXTradeMWClient;
 			sourceTree = "<group>";
@@ -119,6 +129,8 @@
 		4AAF86E319DCC231006FD18F /* CXTradeMWClientTests */ = {
 			isa = PBXGroup;
 			children = (
+				4A0A3ABB19DF33C700136499 /* CXTradeSpiImpl.m */,
+				4A0A3ABA19DF33C700136499 /* CXTradeSpiImpl.h */,
 				4AAF86E919DCC231006FD18F /* CXTradeMWClientTests.h */,
 				4AAF86EB19DCC231006FD18F /* CXTradeMWClientTests.m */,
 				4AAF86E419DCC231006FD18F /* Supporting Files */,
@@ -145,6 +157,8 @@
 				4A727A8919DEB16E005A4AF5 /* CXTradeMWClient.h in Headers */,
 				4ABC30B419DDAABA00B0BBE3 /* CXTradeMWSocket.h in Headers */,
 				4A727A8619DEA5AE005A4AF5 /* JSONKit.h in Headers */,
+				4A0A3AB719DF2E3E00136499 /* CXTradeMWSpi.h in Headers */,
+				4A0A3ABC19DF33C700136499 /* CXTradeSpiImpl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +260,8 @@
 				4AAF86D219DCC231006FD18F /* CXTradeMWClient.m in Sources */,
 				4ABC30B619DDAAC500B0BBE3 /* CXTradeMWSocket.m in Sources */,
 				4A727A8819DEA5B7005A4AF5 /* JSONKit.m in Sources */,
+				4A0A3AB819DF2E3E00136499 /* CXTradeMWSpi.m in Sources */,
+				4A0A3ABD19DF33C700136499 /* CXTradeSpiImpl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

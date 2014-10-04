@@ -17,9 +17,15 @@
     self = [super init];
     if (self) {
         // Initialization code here.
+        ENC = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
     }
     
     return self;
+}
+
+// Delegate
+- (void)setSpiDelegate:(CXTradeMWSpi*) mwSpi{
+    spi = mwSpi;
 }
 
 
@@ -107,27 +113,24 @@
 
 //Socket回调，可以知道Socket的连接状态，收到Server端发来的数据等
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
-    
-    //NSLog(@"Stream event: %i", streamEvent);  
-    
     switch (streamEvent) {
         case NSStreamEventHasBytesAvailable:
             if (theStream == inputStream) {
-                uint8_t buffer[4096];
-                int len;
-                
                 while ([inputStream hasBytesAvailable]) {
-                    len = [inputStream read:buffer maxLength:sizeof(buffer)];
+                    uint8_t buffer[4096];
+                    int actuallyRead;
+                    actuallyRead = [inputStream read:buffer maxLength:sizeof(buffer)];
                     
-                    if (len > 0) {
-                        NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-                        NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:enc];
+                    if (actuallyRead > 0) {
+                        NSString *output = [[NSString alloc] initWithBytes:buffer length:actuallyRead encoding:ENC];
                         if (nil != output) {
-                            NSLog(@"返回: %@", output);
-                            //[self notifyNewMessage:output];
+                            //NSLog(@"返回: %@", output);
+                            [spi receiveJsonMessage:output];
                         }
-                        [output release];    
+                        [output release];
+                        output = nil;
                     }
+                    
                 }
             }
             break;

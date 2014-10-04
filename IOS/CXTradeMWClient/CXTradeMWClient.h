@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CXTradeMWSocket.h"
+#import "CXTradeMWSpi.h"
 
 #define Req_UserLogin              100
 
@@ -38,10 +39,16 @@
 #define Req_Close                 200
 
 
+//
 @interface CXTradeMWClient : NSObject{
     CXTradeMWSocket* socket;
+    CXTradeMWSpi* cxTradeSpi;
 }
 
+// Register
+-(void) setSpi:(CXTradeMWSpi*)spi;
+
+// Connect
 -(void) connect:(NSString*) host andPort:(int)port;
 -(void) close;
 

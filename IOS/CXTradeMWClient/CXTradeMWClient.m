@@ -23,10 +23,19 @@
     return self;
 }
 
+// Register Spi
+-(void) setSpi:(CXTradeMWSpi*)spi{
+    cxTradeSpi = spi;
+}
 
 // 连接中间件
 -(void) connect:(NSString*) host andPort:(int)port{
     socket = [[CXTradeMWSocket alloc] init];
+    
+    // Set Spi
+    [socket setSpiDelegate:cxTradeSpi];
+    
+    // Connect
     [socket connect: host andPort:port];   
 }
 

@@ -7,12 +7,22 @@
 //  
 
 #import <Foundation/Foundation.h>
+#import "CXTradeMWSpi.h"
 
 @interface CXTradeMWSocket : NSObject<NSStreamDelegate>{
+    CXTradeMWSpi* spi;
+    
     NSInputStream *inputStream;
     NSOutputStream *outputStream;
+    
+    NSStringEncoding ENC;
 }
 
+
+// Delegate
+- (void)setSpiDelegate:(CXTradeMWSpi*) mwSpi;
+
+// Connect
 - (void)startStreamThread;
 - (void)connect:(NSString*) host andPort:(int)port;
 - (void)disConnect;
