@@ -79,6 +79,9 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy /y "$(ProjectDir)/CXTradeMW.ini" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -114,30 +117,35 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy /y "$(ProjectDir)/CXTradeMW.ini" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CXMWCommand.h" />
-    <ClInclude Include="CXMWSocket.h" />
-    <ClInclude Include="CXMWSocketListener.h" />
+    <ClInclude Include="CXTradeMWCommand.h" />
+    <ClInclude Include="CXTradeMWSocket.h" />
+    <ClInclude Include="CXTradeMWSocketListener.h" />
     <ClInclude Include="CXTradeMW.h" />
+    <ClInclude Include="CXTradeMWConfig.h" />
     <ClInclude Include="CXTradeMWDlg.h" />
     <ClInclude Include="CXTradeSpiImpl.h" />
-    <ClInclude Include="CXUtils.h" />
+    <ClInclude Include="CXTradeMWUtils.h" />
     <ClInclude Include="Lock.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CXMWSocket.cpp" />
-    <ClCompile Include="CXMWSocketListener.cpp" />
+    <ClCompile Include="CXTradeMWSocket.cpp" />
+    <ClCompile Include="CXTradeMWSocketListener.cpp" />
     <ClCompile Include="CXTradeMW.cpp" />
+    <ClCompile Include="CXTradeMWConfig.cpp" />
     <ClCompile Include="CXTradeMWDlg.cpp" />
     <ClCompile Include="CXTradeSpiImpl.cpp" />
-    <ClCompile Include="CXUtils.cpp" />
+    <ClCompile Include="CXTradeMWUtils.cpp" />
     <ClCompile Include="Lock.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -148,6 +156,7 @@
     <ResourceCompile Include="CXTradeMW.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CXTradeMW.ini" />
     <None Include="res\CXTradeMW.rc2" />
   </ItemGroup>
   <ItemGroup>

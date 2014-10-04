@@ -1,5 +1,5 @@
 #pragma once
-#include "CXMWSocket.h"
+#include "CXTradeMWSocket.h"
 #include "api/TradeApi.h"
 #include "libs/jsoncpp/json.h"
 

@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "CXMWSocketListener.h"
+#include "CXTradeMWSocketListener.h"
 
 
 // CCXTradeMWDlg ¶Ô»°¿ò

@@ -33,22 +33,25 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CXMWSocket.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CXMWSocketListener.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CXMWCommand.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="CXTradeSpiImpl.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CXUtils.h">
+    <ClInclude Include="Lock.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Lock.h">
+    <ClInclude Include="CXTradeMWConfig.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CXTradeMWCommand.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CXTradeMWSocket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CXTradeMWSocketListener.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CXTradeMWUtils.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,19 +65,22 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CXMWSocket.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CXMWSocketListener.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="CXTradeSpiImpl.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CXUtils.cpp">
+    <ClCompile Include="Lock.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Lock.cpp">
+    <ClCompile Include="CXTradeMWConfig.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CXTradeMWSocket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CXTradeMWSocketListener.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CXTradeMWUtils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -87,6 +93,7 @@
     <None Include="res\CXTradeMW.rc2">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="CXTradeMW.ini" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\CXTradeMW.ico">
