@@ -2,9 +2,10 @@
 //  CXTradeMWSocket.m
 //  CXTradeMWClient
 //
-//  Created by MagicStudio on 14-10-2.
-//  Copyright 2014年 __MyCompanyName__. All rights reserved.
+//  daokui.wang@gmail.com
 //
+//  Created by MagicStudio on 14-10-2.
+//  Copyright 2014年 dhb.studio, All rights reserved.
 
 #import "CXTradeMWSocket.h"
 #import "JSONKit.h"
@@ -24,13 +25,13 @@
 }
 
 // Delegate
-- (void)setSpiDelegate:(CXTradeMWSpi*) mwSpi{
+- (void)SetSpiDelegate:(CXTradeMWSpi*) mwSpi{
     spi = mwSpi;
 }
 
 
 //调用此接口与socket连接
--(void) connect:(NSString*) host andPort:(int)port{  
+-(void) Connect:(NSString*) host andPort:(int)port{  
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
     
@@ -40,7 +41,7 @@
     outputStream = (NSOutputStream *)writeStream; // 输出流
     
     // 启动线程
-    NSThread* backgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(startStreamThread) object:nil];
+    backgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(StartStreamThread) object:nil];
     [backgroundThread start];
     
     // Log
@@ -50,7 +51,7 @@
 
 
 //启动单独的线程处理输入流
-- (void)startStreamThread{
+- (void)StartStreamThread{
     // 输入流
     [inputStream setDelegate:self];
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -68,7 +69,7 @@
 
 
 //调用此接口与socket断开连接
-- (void)disConnect{
+- (void)DisConnect{
     if (inputStream){
         [inputStream close];
         inputStream = nil;
@@ -78,22 +79,27 @@
         [outputStream close];
         outputStream = nil;
     }
+    
+    if (backgroundThread) {
+        [backgroundThread release];
+        backgroundThread = nil;
+    }
 }
 
 
 
 //发送命令给Server
-- (void)sendCommand:(int)commandID {
-    [self sendCommand: commandID andJsonReq:nil];    
+- (void)SendCommand:(int)commandID {
+    [self SendCommand: commandID andJsonReq:nil];    
 }
 
 
 //发送命令给Server
-- (void)sendCommand:(int)commandID andJsonReq:(NSString *)jsonReq {
+- (void)SendCommand:(int)commandID andJsonReq:(NSString *)jsonReq {
     while (true) {
         if ([outputStream hasSpaceAvailable]){
             NSMutableDictionary *jsonDic = [NSMutableDictionary dictionary];
-            [jsonDic setObject:[NSNumber numberWithInt:commandID] forKey:@"commandID"];
+            [jsonDic setValue:[NSNumber numberWithInt:commandID] forKey:@"commandID"];
             if(jsonReq!=nil){
                 [jsonDic setObject:jsonReq forKey:@"jsonParams"];
             }
@@ -103,6 +109,8 @@
             NSData *data = [[NSData alloc] initWithData:[jsonReqMsg dataUsingEncoding:NSUTF8StringEncoding]];
             [outputStream write:[data bytes] maxLength:[data length]];
             NSLog(@"Write command to MW: %@", jsonReqMsg);
+            
+            [data release];
             break;
         }
     }
@@ -125,7 +133,7 @@
                         NSString *output = [[NSString alloc] initWithBytes:buffer length:actuallyRead encoding:ENC];
                         if (nil != output) {
                             //NSLog(@"返回: %@", output);
-                            [spi receiveJsonMessage:output];
+                            [spi ReceiveJsonMessage:output];
                         }
                         [output release];
                         output = nil;
@@ -138,11 +146,11 @@
             break;
         case NSStreamEventErrorOccurred:
             NSLog(@"Can not connect to the host!");
-            [self cleanUpStream:theStream];
+            [self CleanUpStream:theStream];
             break;
         case NSStreamEventEndEncountered:
             NSLog(@"Closing stream...");
-            [self cleanUpStream:theStream];
+            [self CleanUpStream:theStream];
             break;
         default:
             break;
@@ -150,7 +158,7 @@
 }
 
 // CleanUp
-- (void)cleanUpStream:(NSStream *)stream
+- (void)CleanUpStream:(NSStream *)stream
 {
     [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [stream close];

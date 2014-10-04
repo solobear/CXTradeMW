@@ -2,12 +2,15 @@
 //  CXTradeMWClientTests.m
 //  CXTradeMWClientTests
 //
-//  Created by MagicStudio on 14-10-2.
-//  Copyright 2014年 __MyCompanyName__. All rights reserved.
+//  daokui.wang@gmail.com
 //
+//  Created by MagicStudio on 14-10-2.
+//  Copyright 2014年 dhb.studio, All rights reserved.
+
 
 #import "CXTradeMWClientTests.h"
 #import "CXTradeSpiImpl.h"
+#import "CXTradeMWReqStruct.h"
 
 // Test
 @implementation CXTradeMWClientTests
@@ -21,10 +24,12 @@
     
     // 注册行情接口和回报Spi
     spi = [[CXTradeSpiImpl alloc] init];
-    [client setSpi:spi];
+    [client SetSpi:spi];
     
     // 连接
-    [client connect: @"182.254.133.20" andPort:7190];
+    [client Connect: @"182.254.133.20" andPort:7190];
+    
+     [NSThread sleepForTimeInterval:2]; 
 }
 
 - (void)tearDown
@@ -32,7 +37,7 @@
     // 断开连接
     [NSThread sleepForTimeInterval:3];
     NSLog(@"Exit...");
-    [client close];
+    [client Close];
     NSLog(@"Done!");
     
     [super tearDown];
@@ -42,14 +47,26 @@
 {   
     //登陆
     NSLog(@"Login...");
-    [client login: @"003098765432103" andPassword:@"123456"];
+    [client Login: @"003098765432103" andPassword:@"123456"];
     
     //登陆后等待者2秒
-    [NSThread sleepForTimeInterval:2]; // sleep for login only
+    [NSThread sleepForTimeInterval:2]; 
     
     //开始查询
     NSLog(@"Qry Commodity ...");
-    [client reqQryCommodity];
+    [client ReqQryCommodity];
+    
+    // 
+    [NSThread sleepForTimeInterval:2]; 
+    CXOpenMarketOrderParam omop = {
+        .nQuantity = 1,
+        .nOrderType = 1,
+        .nOpenDirector = 0,
+        .nCommodityID = 1,
+        .dbPrice = 112.10,
+        .dbTradeRange = 112.20
+    };
+    [client ReqOpenMarketOrder:&omop];
 }
 
 @end

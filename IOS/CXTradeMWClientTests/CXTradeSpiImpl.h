@@ -2,9 +2,11 @@
 //  CXTradeSpiImpl.h
 //  CXTradeMWClient
 //
-//  Created by MagicStudio on 14-10-4.
-//  Copyright 2014年 __MyCompanyName__. All rights reserved.
+//  daokui.wang@gmail.com
 //
+//  Created by MagicStudio on 14-10-2.
+//  Copyright 2014年 dhb.studio, All rights reserved.
+
 
 #import "CXTradeMWSpi.h"
 
@@ -12,6 +14,6 @@
 @interface CXTradeSpiImpl : CXTradeMWSpi
 
 //此处为交易所回传的消息： 成交回报／行情信息等。
--(void) receiveJsonMessage : (NSString*) jsonMsg;
+-(void) ReceiveJsonMessage : (NSString*) jsonMsg;
 
 @end

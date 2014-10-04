@@ -12,7 +12,7 @@
 @implementation CXTradeMWSpi
 
 //此处为交易所回传的消息： 成交回报／行情信息等。
--(void) receiveJsonMessage : (NSString*) jsonMsg{
+-(void) ReceiveJsonMessage : (NSString*) jsonMsg{
      NSLog(@"返回: %@", jsonMsg);
 }
 

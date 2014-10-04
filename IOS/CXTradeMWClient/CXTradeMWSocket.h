@@ -2,9 +2,10 @@
 //  CXTradeMWSocket.h
 //  CXTradeMWClient
 //
+//  daokui.wang@gmail.com
+//
 //  Created by MagicStudio on 14-10-2.
-//  Copyright 2014年 __MyCompanyName__. All rights reserved.
-//  
+//  Copyright 2014年 dhb.studio, All rights reserved.
 
 #import <Foundation/Foundation.h>
 #import "CXTradeMWSpi.h"
@@ -15,23 +16,25 @@
     NSInputStream *inputStream;
     NSOutputStream *outputStream;
     
+    NSThread* backgroundThread;
+    
     NSStringEncoding ENC;
 }
 
 
 // Delegate
-- (void)setSpiDelegate:(CXTradeMWSpi*) mwSpi;
+- (void)SetSpiDelegate:(CXTradeMWSpi*) mwSpi;
 
 // Connect
-- (void)startStreamThread;
-- (void)connect:(NSString*) host andPort:(int)port;
-- (void)disConnect;
+- (void)StartStreamThread;
+- (void)Connect:(NSString*) host andPort:(int)port;
+- (void)DisConnect;
 
 // 发送命令给Server
-- (void)sendCommand:(int)commandID andJsonReq:(NSString *)jsonReq; 
-- (void)sendCommand:(int)commandID;
+- (void)SendCommand:(int)commandID andJsonReq:(NSString *)jsonReq; 
+- (void)SendCommand:(int)commandID;
 
 // CleanUP
-- (void)cleanUpStream:(NSStream *)stream;
+- (void)CleanUpStream:(NSStream *)stream;
 
 @end
