@@ -692,10 +692,6 @@ void CXTradeSpiImpl::OnRspQryHoldPositionTotal(std::vector<CXHoldPositionTotalIn
 ///@param errCode：出错信息。
 void CXTradeSpiImpl::OnRspQryMarketStatus(int nMarketStatus, int errCode)
 {
-	if (CX_MARKET_STATUS_OPEN == nMarketStatus){
-		m_pTradeApi->ReqQryCommodity();
-	}
-
 	try{
 		Json::Value jsonResps;
 		jsonResps["MarketStatus"] = nMarketStatus;
@@ -708,6 +704,11 @@ void CXTradeSpiImpl::OnRspQryMarketStatus(int nMarketStatus, int errCode)
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
+
+		//查询合约
+		if (CX_MARKET_STATUS_OPEN == nMarketStatus){
+			m_pTradeApi->ReqQryCommodity();
+		}
 	}
 	catch (std::exception &ex)
 	{

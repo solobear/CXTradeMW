@@ -20,11 +20,14 @@ public:
 	virtual void OnSend(int nErrorCode);
 	virtual void OnClose(int nErrorCode);
 
-	// CXTradeApi: Req and Resp
+protected:
 	bool STOP;
+
+	// CXTradeApi: Req and Resp
 	CTradeApi* pApi;
 	static int CXTradeApiReqThread(LPVOID pParam);
 	void Login();              // 登陆
+
 	CTradeSpi* pSpi;
 	static int CXTradeApiRespThread(LPVOID pParam);
 	void SendBackTradeData();  //数据回传
@@ -36,6 +39,7 @@ public:
 	CString username;
 	CString password;
 
+protected:
 	// 消息长度
 	UINT m_nLength;
 
@@ -44,8 +48,9 @@ public:
 
 	// 存数据进队列
 	char m_sendBuf[4096];     //发送缓冲区
-	deque<string> m_sendQue;  //发送数据队列
-	void Enque(string);
 	Mutex m_lock;	//创建一个互斥对象 
+	deque<string> m_sendQue;  //发送数据队列
 
+public:
+	void Enque(string); //数据入列
 };

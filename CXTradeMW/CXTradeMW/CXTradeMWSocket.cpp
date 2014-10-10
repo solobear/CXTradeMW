@@ -346,6 +346,7 @@ void CXMWSocket::SendBackTradeData()
 				//cout << "--原始数据: " << m_sendQue.front() << endl;
 				//DEBUG
 				//cout << "--发送数据: " << m_sendBuf;
+				//cout << "--发送数据! " << endl;
 
 				// 发送数据
 				Send(m_sendBuf, strlen(m_sendBuf));

@@ -30,8 +30,8 @@ public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> 
 		logger.info("--连接中间件");
 		CXTradeMWSpi spi = new CXTradeMWSpiImpl();
 		client = new CXTradeMWClient(spi);
-		client.connect("182.254.133.20", 7190); 
-        //client.connect("10.0.2.2", 7190);//Localhost
+		//client.connect("182.254.133.20", 7190); 
+        client.connect("10.0.2.2", 7190);//Localhost
 	}
 
 	/*
@@ -51,15 +51,31 @@ public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> 
 	 */
 	public void testCXMWClient() {
 
-		logger.info("--登陆!");
-		client.login("003098765432103", "123456");
+		try {
+			logger.info("--登陆!");
+			client.login("003098765432106", "123456");
 
-		sleep(5000);
-		
-		logger.info("--账户信息!");
-		client.reqQryCommodity();
-		client.reqQryAccountInfo();
-		sleep(5000);
+			sleep(5000);
+			
+			logger.info("--账户信息!");
+			client.reqQryCommodity();
+			client.reqQryAccountInfo();
+			
+			sleep(5000);
+			
+			//
+			logger.info("--连接中间件");
+			CXTradeMWSpi spi = new CXTradeMWSpiImpl();
+			CXTradeMWClient client2 = new CXTradeMWClient(spi);
+			//client.connect("182.254.133.20", 7190); 
+			client2.connect("10.0.2.2", 7190);//Localhost
+			
+			logger.info("--登陆!");
+			client2.login("003098765432106", "123456");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

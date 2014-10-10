@@ -47,7 +47,7 @@ DWORD WINAPI ThreadMethod(LPVOID lpParameter)
 		return -1;
 	}
 	printf("Login...\n");
-	pApi->ReqUserLogin("003098765432103", "123456");
+	pApi->ReqUserLogin("003098765432106", "123456");
 
 	pApi->Join();
 
