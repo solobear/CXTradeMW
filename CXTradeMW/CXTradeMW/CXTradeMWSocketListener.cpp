@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "CXMWSocketListener.h"
+#include "CXTradeMWSocketListener.h"
 
 CXMWSocketListener::CXMWSocketListener(void)
 {

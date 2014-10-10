@@ -3,11 +3,12 @@
 #include <string>
 #include <iostream>
 #include "libs/jsoncpp/json.h"
-#include "CXMWSocket.h"
-#include "CXMWCommand.h"
-#include "api/TradeApi.h"
+#include "CXTradeMWSocket.h"
+#include "CXTradeMWCommand.h"
+#include "CXTradeMWUtils.h"
+#include "CXTradeMWConfig.h"
 #include "CXTradeSpiImpl.h"
-#include "CXUtils.h"
+#include "api/TradeApi.h"
 
 using namespace std;
 using namespace Json;
@@ -343,7 +344,8 @@ void CXMWSocket::SendBackTradeData()
 				strcat_s(m_sendBuf, m_sendQue.front().c_str());
 				//cout << strlen(m_sendBuf) << endl;
 				//cout << "--原始数据: " << m_sendQue.front() << endl;
-				cout << "--发送数据: " << m_sendBuf;
+				//DEBUG
+				//cout << "--发送数据: " << m_sendBuf;
 
 				// 发送数据
 				Send(m_sendBuf, strlen(m_sendBuf));
@@ -413,8 +415,10 @@ void CXMWSocket::Login()
 		pSpi = new CXTradeSpiImpl(pApi, this);
 		pApi->RegisterSpi(pSpi);
 
-		pApi->RegisterFront("183.62.250.18", 9745);
-		pApi->SetAppMessage("test1", "123456", "874987497234");
+		// Config
+		CXTradeMWConfig* config = CXTradeMWConfig::Instance();
+		pApi->RegisterFront(config->ServerIP(), config->ServerPort());
+		pApi->SetAppMessage(config->AppCode(), config->VendorPassword(), config->VendorID());
 
 		int res = pApi->Init();
 		if (res)

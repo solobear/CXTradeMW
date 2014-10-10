@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "CXMWCommand.h"
+#include "CXTradeMWCommand.h"
 #include "CXTradeSpiImpl.h"
 #include "libs/jsoncpp/json.h"
 

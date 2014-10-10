@@ -1,5 +1,5 @@
 #pragma once
-#include "CXUtils.h"
+#include "CXTradeMWUtils.h"
 
 ///
 void CXUtils::CleanSlash(char *str)

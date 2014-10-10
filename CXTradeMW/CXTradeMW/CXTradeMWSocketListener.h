@@ -1,6 +1,6 @@
 #pragma once
 #include "afxsock.h"
-#include "CXMWSocket.h"
+#include "CXTradeMWSocket.h"
 
 // Listener
 class CXMWSocketListener :
