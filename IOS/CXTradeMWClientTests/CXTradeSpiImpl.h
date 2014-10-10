@@ -13,6 +13,9 @@
 // 消息回传接口
 @interface CXTradeSpiImpl : CXTradeMWSpi
 
+// 连接结果
+-(void) ConnectionResult : (Boolean) success;
+
 //此处为交易所回传的消息： 成交回报／行情信息等。
 -(void) ReceiveJsonMessage : (NSString*) jsonMsg;
 

@@ -29,7 +29,7 @@
     // 连接
     [client Connect: @"182.254.133.20" andPort:7190];
     
-     [NSThread sleepForTimeInterval:2]; 
+    [NSThread sleepForTimeInterval:2]; 
 }
 
 - (void)tearDown
@@ -47,14 +47,14 @@
 {   
     //登陆
     NSLog(@"Login...");
-    [client Login: @"003098765432103" andPassword:@"123456"];
+    [client Login: @"003098765432109" andPassword:@"123456"];
     
     //登陆后等待者2秒
     [NSThread sleepForTimeInterval:2]; 
     
     //开始查询
     NSLog(@"Qry Commodity ...");
-    [client ReqQryCommodity];
+    [client ReqQryMarketStatus];
     
     // 
     [NSThread sleepForTimeInterval:2]; 

@@ -14,6 +14,17 @@
 // 消息回传接口
 @implementation CXTradeSpiImpl
 
+// 连接结果
+-(void) ConnectionResult : (Boolean) success{
+    if (success) {
+        // Connect success
+        // You can put login here.
+    }else{
+        // Connect failed
+    }
+}
+
+
 //此处为交易所回传的消息： 成交回报／行情信息等。
 -(void) ReceiveJsonMessage : (NSString*) jsonMsg{
     

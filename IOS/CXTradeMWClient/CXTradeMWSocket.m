@@ -143,10 +143,17 @@
             }
             break;
         case NSStreamEventOpenCompleted:
+            NSLog(@"Connect the middleware host: Success");
+             if (theStream == inputStream) {
+                 [spi ConnectionResult:true];
+             }
             break;
         case NSStreamEventErrorOccurred:
-            NSLog(@"Can not connect to the host!");
+            NSLog(@"Connect the middleware host: Failed");
             [self CleanUpStream:theStream];
+            if (theStream == inputStream) {
+                [spi ConnectionResult:false];
+            }
             break;
         case NSStreamEventEndEncountered:
             NSLog(@"Closing stream...");

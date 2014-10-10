@@ -662,6 +662,7 @@ void jk_collectionClassLoadTimeInitialization(void) {
   id         *objects;
   NSUInteger  count, capacity, mutations;
 }
+- (id)initWithCount:(NSUInteger)initCount;
 @end
 
 @implementation JKArray
@@ -677,10 +678,9 @@ static JKArray *_JKArrayCreate(id *objects, NSUInteger count, BOOL mutableCollec
   NSCParameterAssert((objects != NULL) && (_JKArrayClass != NULL) && (_JKArrayInstanceSize > 0UL));
   JKArray *array = NULL;
   if(JK_EXPECT_T((array = (JKArray *)calloc(1UL, _JKArrayInstanceSize)) != NULL)) { // Directly allocate the JKArray instance via calloc.
-    array->isa      = _JKArrayClass;
-    if((array = [array init]) == NULL) { return(NULL); }
-    array->capacity = count;
-    array->count    = count;
+      object_setClass(array, _JKArrayClass);
+      array = [array initWithCount:count];
+      if(array == NULL) { return(NULL); }
     if(JK_EXPECT_F((array->objects = (id *)malloc(sizeof(id) * array->capacity)) == NULL)) { [array autorelease]; return(NULL); }
     memcpy(array->objects, objects, array->capacity * sizeof(id));
     array->mutations = (mutableCollection == NO) ? 0UL : 1UL;
@@ -720,6 +720,16 @@ static void _JKArrayRemoveObjectAtIndex(JKArray *array, NSUInteger objectIndex) 
   array->objects[objectIndex] = NULL;
   if((objectIndex + 1UL) < array->count) { memmove(&array->objects[objectIndex], &array->objects[objectIndex + 1UL], sizeof(id) * ((array->count - 1UL) - objectIndex)); array->objects[array->count - 1UL] = NULL; }
   array->count--;
+}
+
+- (id)initWithCount:(NSUInteger)initCount
+{
+    self = [self init];
+    if (self) {
+        count = initCount;
+        capacity = initCount;
+    }
+    return self;
 }
 
 - (void)dealloc
@@ -877,6 +887,7 @@ static void _JKArrayRemoveObjectAtIndex(JKArray *array, NSUInteger objectIndex) 
   NSUInteger count, capacity, mutations;
   JKHashTableEntry *entry;
 }
+- (id)initWithCapacity:(NSInteger)initCapacity;
 @end
 
 @implementation JKDictionary
@@ -928,10 +939,9 @@ static JKDictionary *_JKDictionaryCreate(id *keys, NSUInteger *keyHashes, id *ob
   NSCParameterAssert((keys != NULL) && (keyHashes != NULL) && (objects != NULL) && (_JKDictionaryClass != NULL) && (_JKDictionaryInstanceSize > 0UL));
   JKDictionary *dictionary = NULL;
   if(JK_EXPECT_T((dictionary = (JKDictionary *)calloc(1UL, _JKDictionaryInstanceSize)) != NULL)) { // Directly allocate the JKDictionary instance via calloc.
-    dictionary->isa      = _JKDictionaryClass;
-    if((dictionary = [dictionary init]) == NULL) { return(NULL); }
-    dictionary->capacity = _JKDictionaryCapacityForCount(count);
-    dictionary->count    = 0UL;
+      object_setClass(dictionary, _JKDictionaryClass);
+      dictionary = [dictionary initWithCapacity:_JKDictionaryCapacityForCount(count)];
+    if(dictionary == NULL) { return(NULL); }
     
     if(JK_EXPECT_F((dictionary->entry = (JKHashTableEntry *)calloc(1UL, sizeof(JKHashTableEntry) * dictionary->capacity)) == NULL)) { [dictionary autorelease]; return(NULL); }
 
@@ -941,6 +951,16 @@ static JKDictionary *_JKDictionaryCreate(id *keys, NSUInteger *keyHashes, id *ob
     dictionary->mutations = (mutableCollection == NO) ? 0UL : 1UL;
   }
   return(dictionary);
+}
+
+- (id)initWithCapacity:(NSInteger)initCapacity
+{
+    self = [self init];
+    if (self) {
+        capacity = initCapacity;
+        count = 0UL;
+    }
+    return self;
 }
 
 - (void)dealloc
@@ -2595,7 +2615,10 @@ static int jk_encode_add_atom_to_buffer(JKEncodeState *encodeState, void *object
   // XXX XXX XXX XXX
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-objc-pointer-introspection"
   BOOL   workAroundMacOSXABIBreakingBug = (JK_EXPECT_F(((NSUInteger)object) & 0x1))     ? YES  : NO;
+#pragma clang diagnostic pop
   void  *objectISA                      = (JK_EXPECT_F(workAroundMacOSXABIBreakingBug)) ? NULL : *((void **)objectPtr);
   if(JK_EXPECT_F(workAroundMacOSXABIBreakingBug)) { goto slowClassLookup; }
 
