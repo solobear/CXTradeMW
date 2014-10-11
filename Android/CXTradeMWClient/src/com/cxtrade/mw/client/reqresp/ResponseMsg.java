@@ -8,12 +8,12 @@ import com.google.gson.JsonElement;
  *
  */
 public class ResponseMsg {
-     private String respDesc;
-     private int respErr;
-     private int respID;
-     private  JsonElement  respJsons;
-     
-     
+	private int respID;       // 返回类型标识
+    private String respDesc;  // 返回消息类型描述
+    private int respErr;      // 返回错误代码
+    private boolean isLast;   // 是否最后一条： 少数几个需要
+	private JsonElement respJsons;  // 消息内容
+
 	public String getRespDesc() {
 		return respDesc;
 	}
@@ -31,6 +31,12 @@ public class ResponseMsg {
 	}
 	public void setRespID(int respID) {
 		this.respID = respID;
+	}
+    public boolean isLast() {
+		return isLast;
+	}
+	public void setLast(boolean isLast) {
+		this.isLast = isLast;
 	}
 	public JsonElement getRespJsons() {
 		return respJsons;
