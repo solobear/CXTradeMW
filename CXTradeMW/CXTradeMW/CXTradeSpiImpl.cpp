@@ -32,6 +32,7 @@ void CXTradeSpiImpl::OnRtnUserLogin(const CXProcessResult *result)
 		jsonRoot[RESPID] = RESP_OnRtnUserLogin;
 		jsonRoot[RESPDESC] = "OnRtnUserLogin";
 		jsonRoot[RESPJSONS] = jsonResps;
+		jsonRoot[RESPISLAST] = true;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -61,6 +62,7 @@ void CXTradeSpiImpl::OnRtnQuote(const CXRealTimeQuote *quote)
 		jsonRoot[RESPID] = RESP_OnRtnQuote;
 		jsonRoot[RESPDESC] = "OnRtnQuote";
 		jsonRoot[RESPJSONS] = jsonResps;
+		jsonRoot[RESPISLAST] = true;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -85,6 +87,7 @@ void CXTradeSpiImpl::OnRtnOpenMarketOrder(long long HoldPositionID, const CXProc
 		jsonRoot[RESPID] = RESP_OnRtnOpenMarketOrder;
 		jsonRoot[RESPDESC] = "OnRtnOpenMarketOrder";
 		jsonRoot[RESPJSONS] = jsonResps;
+		jsonRoot[RESPISLAST] = true;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -109,6 +112,7 @@ void CXTradeSpiImpl::OnRtnCloseMarketOrder(long long HoldPositionID, const CXPro
 		jsonRoot[RESPID] = RESP_OnRtnCloseMarketOrder;
 		jsonRoot[RESPDESC] = "OnRtnCloseMarketOrder";
 		jsonRoot[RESPJSONS] = jsonResps;
+		jsonRoot[RESPISLAST] = true;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -133,6 +137,7 @@ void CXTradeSpiImpl::OnRtnOpenLimitOrder(long long LimitOrderID, const CXProcess
 		jsonRoot[RESPID] = RESP_OnRtnOpenLimitOrder;
 		jsonRoot[RESPDESC] = "OnRtnOpenLimitOrder";
 		jsonRoot[RESPJSONS] = jsonResps;
+		jsonRoot[RESPISLAST] = true;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -157,6 +162,7 @@ void CXTradeSpiImpl::OnRtnLimitClosePosition(long long HoldPositionID, const CXP
 		jsonRoot[RESPID] = RESP_OnRtnLimitClosePosition;
 		jsonRoot[RESPDESC] = "OnRtnLimitClosePosition";
 		jsonRoot[RESPJSONS] = jsonResps;
+		jsonRoot[RESPISLAST] = true;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -181,6 +187,7 @@ void CXTradeSpiImpl::OnRtnRevokeLimitOrder(long long LimitOrderID, const CXProce
 		jsonRoot[RESPID] = RESP_OnRtnRevokeLimitOrder;
 		jsonRoot[RESPDESC] = "OnRtnRevokeLimitOrder";
 		jsonRoot[RESPJSONS] = jsonResps;
+		jsonRoot[RESPISLAST] = true;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -212,6 +219,7 @@ void CXTradeSpiImpl::OnRtnSysBulletin(const CXSysBulletinInfo *pSysBulletin)
 		jsonRoot[RESPID] = RESP_OnRtnSysBulletin;
 		jsonRoot[RESPDESC] = "OnRtnSysBulletin";
 		jsonRoot[RESPJSONS] = jsonResps;
+		jsonRoot[RESPISLAST] = true;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -225,7 +233,7 @@ void CXTradeSpiImpl::OnRtnSysBulletin(const CXSysBulletinInfo *pSysBulletin)
 ///用户登录回报
 ///@param pszLoginAccount：账户。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspUserLogin(const char* pszLoginAccount, int errCode)
+void CXTradeSpiImpl::OnRspUserLogin(const char* pszLoginAccount, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -236,6 +244,7 @@ void CXTradeSpiImpl::OnRspUserLogin(const char* pszLoginAccount, int errCode)
 		jsonRoot[RESPDESC] = "OnRspUserLogin";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -249,7 +258,7 @@ void CXTradeSpiImpl::OnRspUserLogin(const char* pszLoginAccount, int errCode)
 ///市价单开仓回报
 ///@param pOnRspOpenMarketOrderField：市价单开仓结构。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspOpenMarketOrder(const CXOpenMarketOrderParam *pRspOpenMarketOrderField, int errCode)
+void CXTradeSpiImpl::OnRspOpenMarketOrder(const CXOpenMarketOrderParam *pRspOpenMarketOrderField, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -265,6 +274,7 @@ void CXTradeSpiImpl::OnRspOpenMarketOrder(const CXOpenMarketOrderParam *pRspOpen
 		jsonRoot[RESPDESC] = "OnRspOpenMarketOrder";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -279,7 +289,7 @@ void CXTradeSpiImpl::OnRspOpenMarketOrder(const CXOpenMarketOrderParam *pRspOpen
 ///市价单平仓回报
 ///@param pOnRspCloseMarketOrderField：市价单平仓结构。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspCloseMarketOrder(const CXCloseMarketOrderParam *pOnRspCloseMarketOrderField, int errCode)
+void CXTradeSpiImpl::OnRspCloseMarketOrder(const CXCloseMarketOrderParam *pOnRspCloseMarketOrderField, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -295,6 +305,7 @@ void CXTradeSpiImpl::OnRspCloseMarketOrder(const CXCloseMarketOrderParam *pOnRsp
 		jsonRoot[RESPDESC] = "OnRspCloseMarketOrder";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -309,7 +320,7 @@ void CXTradeSpiImpl::OnRspCloseMarketOrder(const CXCloseMarketOrderParam *pOnRsp
 ///限价单开仓回报
 ///@param pOnRspOpenLimitOrderField：限价单开仓结构。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspOpenLimitOrder(const CXOpenLimitOrderParam *pOnRspOpenLimitOrderField, int errCode)
+void CXTradeSpiImpl::OnRspOpenLimitOrder(const CXOpenLimitOrderParam *pOnRspOpenLimitOrderField, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -327,6 +338,7 @@ void CXTradeSpiImpl::OnRspOpenLimitOrder(const CXOpenLimitOrderParam *pOnRspOpen
 		jsonRoot[RESPDESC] = "OnRspOpenLimitOrder";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -341,7 +353,7 @@ void CXTradeSpiImpl::OnRspOpenLimitOrder(const CXOpenLimitOrderParam *pOnRspOpen
 ///限价单平仓回报
 ///@param pOnRspCloseLimitOrderField：限价单平仓结构。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspLimitClosePosition(const CXCloseLimitOrderParam *pOnRspCloseLimitOrderField, int errCode)
+void CXTradeSpiImpl::OnRspLimitClosePosition(const CXCloseLimitOrderParam *pOnRspCloseLimitOrderField, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -359,6 +371,7 @@ void CXTradeSpiImpl::OnRspLimitClosePosition(const CXCloseLimitOrderParam *pOnRs
 		jsonRoot[RESPDESC] = "OnRspLimitClosePosition";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -372,7 +385,7 @@ void CXTradeSpiImpl::OnRspLimitClosePosition(const CXCloseLimitOrderParam *pOnRs
 ///撤单回报
 ///@param pOnRspLimitRevokeField：撤单结构。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspLimitRevoke(const CXLimitRevokeParam *pOnRspLimitRevokeField, int errCode)
+void CXTradeSpiImpl::OnRspLimitRevoke(const CXLimitRevokeParam *pOnRspLimitRevokeField, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -386,6 +399,7 @@ void CXTradeSpiImpl::OnRspLimitRevoke(const CXLimitRevokeParam *pOnRspLimitRevok
 		jsonRoot[RESPDESC] = "OnRspLimitRevoke";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -400,7 +414,7 @@ void CXTradeSpiImpl::OnRspLimitRevoke(const CXLimitRevokeParam *pOnRspLimitRevok
 ///市价单批量平仓回报
 ///@param pOnRspCloseMarketOrderManyField：市价单批量平仓结构。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspCloseMarketOrderMany(const CXCloseMarketOrderManyParam *pOnRspCloseMarketOrderManyField, int errCode)
+void CXTradeSpiImpl::OnRspCloseMarketOrderMany(const CXCloseMarketOrderManyParam *pOnRspCloseMarketOrderManyField, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -416,6 +430,7 @@ void CXTradeSpiImpl::OnRspCloseMarketOrderMany(const CXCloseMarketOrderManyParam
 		jsonRoot[RESPDESC] = "OnRspCloseMarketOrderMany";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -430,7 +445,7 @@ void CXTradeSpiImpl::OnRspCloseMarketOrderMany(const CXCloseMarketOrderManyParam
 ///查询账户信息回报
 ///@param account：账户信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryAccountInfo(const CXAccountInfo *pAccount, int errCode)
+void CXTradeSpiImpl::OnRspQryAccountInfo(const CXAccountInfo *pAccount, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -450,6 +465,7 @@ void CXTradeSpiImpl::OnRspQryAccountInfo(const CXAccountInfo *pAccount, int errC
 		jsonRoot[RESPDESC] = "OnRspQryAccountInfo";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -464,37 +480,31 @@ void CXTradeSpiImpl::OnRspQryAccountInfo(const CXAccountInfo *pAccount, int errC
 ///查询商品信息回报
 ///@param vCommodity：商品信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryCommodity(std::vector<CXCommodityInfo> &vCommodity, int errCode)
+void CXTradeSpiImpl::OnRspQryCommodity(const CXCommodityInfo* vCommodity, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
-		std::vector<CXCommodityInfo>::iterator it;
-		for (it = vCommodity.begin(); it != vCommodity.end(); it++)
-		{
-			Json::Value jsonItem;
-			jsonItem["CommodityID"] = it->CommodityID;
-			jsonItem["CommodityName"] = it->CommodityName;
-			jsonItem["CommodityRight"] = it->CommodityRight;
-			jsonItem["TradeRight"] = it->TradeRight;
-			jsonItem["AgreeUnit"] = it->AgreeUnit;
-			jsonItem["Currency"] = it->Currency;
-			jsonItem["MinQuoteChangeUnit"] = it->MinQuoteChangeUnit;
-			jsonItem["MinPriceUnit"] = it->MinPriceUnit;
-			jsonItem["FixedSpread"] = it->FixedSpread;
-			jsonItem["BuyPrice"] = it->BuyPrice;
-			jsonItem["SellPrice"] = it->SellPrice;
-			jsonItem["HighPrice"] = it->HighPrice;
-			jsonItem["LowPrice"] = it->LowPrice;
-			jsonItem["QuoteTime"] = it->QuoteTime;
-
-			jsonResps.append(jsonItem);
-		}
+		jsonResps["CommodityID"] = vCommodity->CommodityID;
+		jsonResps["CommodityName"] = vCommodity->CommodityName;
+		jsonResps["CommodityRight"] = vCommodity->CommodityRight;
+		jsonResps["TradeRight"] = vCommodity->TradeRight;
+		jsonResps["AgreeUnit"] = vCommodity->AgreeUnit;
+		jsonResps["Currency"] = vCommodity->Currency;
+		jsonResps["MinQuoteChangeUnit"] = vCommodity->MinQuoteChangeUnit;
+		jsonResps["MinPriceUnit"] = vCommodity->MinPriceUnit;
+		jsonResps["FixedSpread"] = vCommodity->FixedSpread;
+		jsonResps["BuyPrice"] = vCommodity->BuyPrice;
+		jsonResps["SellPrice"] = vCommodity->SellPrice;
+		jsonResps["HighPrice"] = vCommodity->HighPrice;
+		jsonResps["LowPrice"] = vCommodity->LowPrice;
+		jsonResps["QuoteTime"] = vCommodity->QuoteTime;
 
 		Json::Value jsonRoot;
 		jsonRoot[RESPID] = RESP_OnRspQryCommodity;
 		jsonRoot[RESPDESC] = "OnRspQryCommodity";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -509,42 +519,36 @@ void CXTradeSpiImpl::OnRspQryCommodity(std::vector<CXCommodityInfo> &vCommodity,
 ///查询持仓单信息回报
 ///@param vHoldPosition：持仓单信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryPositionOrder(std::vector<CXHoldPositionInfo>& vHoldPosition, int errCode)
+void CXTradeSpiImpl::OnRspQryPositionOrder(const CXHoldPositionInfo* vHoldPosition, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
-		std::vector<CXHoldPositionInfo>::iterator it;
-		for (it = vHoldPosition.begin(); it != vHoldPosition.end(); it++)
-		{
-			Json::Value jsonItem;
-			jsonItem["CommodityID"] = it->CommodityID;
-			jsonItem["CommodityName"] = it->CommodityName;
-			jsonItem["HoldPositionID"] = it->HoldPositionID;
-			jsonItem["OpenType"] = it->OpenType;
-			jsonItem["OpenDirector"] = it->OpenDirector;
-			jsonItem["Quantity"] = it->Quantity;
-			jsonItem["OpenPrice"] = it->OpenPrice;
-			jsonItem["SLLimitOrderID"] = it->SLLimitOrderID;
-			jsonItem["TPLimitOrderID"] = it->TPLimitOrderID;
-			jsonItem["SLPrice"] = it->SLPrice;
-			jsonItem["TPPrice"] = it->TPPrice;
-			jsonItem["HoldPositionPrice"] = it->HoldPositionPrice;
-			jsonItem["ClosePrice"] = it->ClosePrice;
-			jsonItem["OpenProfit"] = it->OpenProfit;
-			jsonItem["CommissionAmount"] = it->CommissionAmount;
-			jsonItem["OpenDate"] = it->OpenDate;
-			jsonItem["AgreeMargin"] = it->AgreeMargin;
-			jsonItem["Freezemargin"] = it->Freezemargin;
-			jsonItem["OverdueFindFund"] = it->OverdueFindFund;
-
-			jsonResps.append(jsonItem);
-		}
+		jsonResps["CommodityID"] = vHoldPosition->CommodityID;
+		jsonResps["CommodityName"] = vHoldPosition->CommodityName;
+		jsonResps["HoldPositionID"] = vHoldPosition->HoldPositionID;
+		jsonResps["OpenType"] = vHoldPosition->OpenType;
+		jsonResps["OpenDirector"] = vHoldPosition->OpenDirector;
+		jsonResps["Quantity"] = vHoldPosition->Quantity;
+		jsonResps["OpenPrice"] = vHoldPosition->OpenPrice;
+		jsonResps["SLLimitOrderID"] = vHoldPosition->SLLimitOrderID;
+		jsonResps["TPLimitOrderID"] = vHoldPosition->TPLimitOrderID;
+		jsonResps["SLPrice"] = vHoldPosition->SLPrice;
+		jsonResps["TPPrice"] = vHoldPosition->TPPrice;
+		jsonResps["HoldPositionPrice"] = vHoldPosition->HoldPositionPrice;
+		jsonResps["ClosePrice"] = vHoldPosition->ClosePrice;
+		jsonResps["OpenProfit"] = vHoldPosition->OpenProfit;
+		jsonResps["CommissionAmount"] = vHoldPosition->CommissionAmount;
+		jsonResps["OpenDate"] = vHoldPosition->OpenDate;
+		jsonResps["AgreeMargin"] = vHoldPosition->AgreeMargin;
+		jsonResps["Freezemargin"] = vHoldPosition->Freezemargin;
+		jsonResps["OverdueFindFund"] = vHoldPosition->OverdueFindFund;
 
 		Json::Value jsonRoot;
 		jsonRoot[RESPID] = RESP_OnRspQryPositionOrder;
 		jsonRoot[RESPDESC] = "OnRspQryPositionOrder";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -560,37 +564,31 @@ void CXTradeSpiImpl::OnRspQryPositionOrder(std::vector<CXHoldPositionInfo>& vHol
 ///查询限价单信息回报
 ///@param vLimitOrder：限价单信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryLimitOrder(std::vector<CXLimitOrderInfo>& vLimitOrder, int errCode)
+void CXTradeSpiImpl::OnRspQryLimitOrder(const CXLimitOrderInfo* vLimitOrder, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
-		std::vector<CXLimitOrderInfo>::iterator it;
-		for (it = vLimitOrder.begin(); it != vLimitOrder.end(); it++)
-		{
-			Json::Value jsonItem;
-			jsonItem["CommodityID"] = it->CommodityID;
-			jsonItem["CommodityName"] = it->CommodityName;
-			jsonItem["LimitOrderID"] = it->LimitOrderID;
-			jsonItem["LimitType"] = it->LimitType;
-			jsonItem["OrderType"] = it->OrderType;
-			jsonItem["OpenDirector"] = it->OpenDirector;
-			jsonItem["OrderPrice"] = it->OrderPrice;
-			jsonItem["SLPrice"] = it->SLPrice;
-			jsonItem["TPPrice"] = it->TPPrice;
-			jsonItem["OpenQuantity"] = it->OpenQuantity;
-			jsonItem["CreateDate"] = it->CreateDate;
-			jsonItem["ExpireType"] = it->ExpireType;
-			jsonItem["UpdateDate"] = it->UpdateDate;
-			jsonItem["FreeszMargin"] = it->FreeszMargin;
-
-			jsonResps.append(jsonItem);
-		}
+		jsonResps["CommodityID"] = vLimitOrder->CommodityID;
+		jsonResps["CommodityName"] = vLimitOrder->CommodityName;
+		jsonResps["LimitOrderID"] = vLimitOrder->LimitOrderID;
+		jsonResps["LimitType"] = vLimitOrder->LimitType;
+		jsonResps["OrderType"] = vLimitOrder->OrderType;
+		jsonResps["OpenDirector"] = vLimitOrder->OpenDirector;
+		jsonResps["OrderPrice"] = vLimitOrder->OrderPrice;
+		jsonResps["SLPrice"] = vLimitOrder->SLPrice;
+		jsonResps["TPPrice"] = vLimitOrder->TPPrice;
+		jsonResps["OpenQuantity"] = vLimitOrder->OpenQuantity;
+		jsonResps["CreateDate"] = vLimitOrder->CreateDate;
+		jsonResps["ExpireType"] = vLimitOrder->ExpireType;
+		jsonResps["UpdateDate"] = vLimitOrder->UpdateDate;
+		jsonResps["FreeszMargin"] = vLimitOrder->FreeszMargin;
 
 		Json::Value jsonRoot;
 		jsonRoot[RESPID] = RESP_OnRspQryLimitOrder;
 		jsonRoot[RESPDESC] = "OnRspQryLimitOrder";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -604,38 +602,32 @@ void CXTradeSpiImpl::OnRspQryLimitOrder(std::vector<CXLimitOrderInfo>& vLimitOrd
 ///查询平仓信息回报
 ///@param vClosePosition：平仓信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryClosePosition(std::vector<CXClosePositionInfo>& vClosePosition, int errCode)
+void CXTradeSpiImpl::OnRspQryClosePosition(const CXClosePositionInfo* vClosePosition, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
-		std::vector<CXClosePositionInfo>::iterator it;
-		for (it = vClosePosition.begin(); it != vClosePosition.end(); it++)
-		{
-			Json::Value jsonItem;
-			jsonItem["CommodityID"] = it->CommodityID;
-			jsonItem["CommodityName"] = it->CommodityName;
-			jsonItem["ClosePositionID"] = it->ClosePositionID;
-			jsonItem["Quantity"] = it->Quantity;
-			jsonItem["CloseDirector"] = it->CloseDirector;
-			jsonItem["OpenPrice"] = it->OpenPrice;
-			jsonItem["HoldPrice"] = it->HoldPrice;
-			jsonItem["ClosePrice"] = it->ClosePrice;
-			jsonItem["OpenPositionID"] = it->OpenPositionID;
-			jsonItem["CommissionAmount"] = it->CommissionAmount;
-			jsonItem["OpenDate"] = it->OpenDate;
-			jsonItem["CloseDate"] = it->CloseDate;
-			jsonItem["MemberID"] = it->MemberID;
-			jsonItem["CloseType"] = it->CloseType;
-			jsonItem["OpenType"] = it->OpenType;
-
-			jsonResps.append(jsonItem);
-		}
+		jsonResps["CommodityID"] = vClosePosition->CommodityID;
+		jsonResps["CommodityName"] = vClosePosition->CommodityName;
+		jsonResps["ClosePositionID"] = vClosePosition->ClosePositionID;
+		jsonResps["Quantity"] = vClosePosition->Quantity;
+		jsonResps["CloseDirector"] = vClosePosition->CloseDirector;
+		jsonResps["OpenPrice"] = vClosePosition->OpenPrice;
+		jsonResps["HoldPrice"] = vClosePosition->HoldPrice;
+		jsonResps["ClosePrice"] = vClosePosition->ClosePrice;
+		jsonResps["OpenPositionID"] = vClosePosition->OpenPositionID;
+		jsonResps["CommissionAmount"] = vClosePosition->CommissionAmount;
+		jsonResps["OpenDate"] = vClosePosition->OpenDate;
+		jsonResps["CloseDate"] = vClosePosition->CloseDate;
+		jsonResps["MemberID"] = vClosePosition->MemberID;
+		jsonResps["CloseType"] = vClosePosition->CloseType;
+		jsonResps["OpenType"] = vClosePosition->OpenType;
 
 		Json::Value jsonRoot;
 		jsonRoot[RESPID] = RESP_OnRspQryClosePosition;
 		jsonRoot[RESPDESC] = "OnRspQryClosePosition";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -650,33 +642,27 @@ void CXTradeSpiImpl::OnRspQryClosePosition(std::vector<CXClosePositionInfo>& vCl
 ///查询持仓单总量回报
 ///@param vTotal：持仓单总量。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryHoldPositionTotal(std::vector<CXHoldPositionTotalInfo>& vTotal, int errCode)
+void CXTradeSpiImpl::OnRspQryHoldPositionTotal(const CXHoldPositionTotalInfo* vTotal, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
-		std::vector<CXHoldPositionTotalInfo>::iterator it;
-		for (it = vTotal.begin(); it != vTotal.end(); it++)
-		{
-			Json::Value jsonItem;
-			jsonItem["CommodityID"] = it->CommodityID;
-			jsonItem["CommodityName"] = it->CommodityName;
-			jsonItem["OpenDirector"] = it->OpenDirector;
-			jsonItem["Quantity"] = it->Quantity;
-			jsonItem["OpenPriceTotal"] = it->OpenPriceTotal;
-			jsonItem["AvgOpenPrice"] = it->AvgOpenPrice;
-			jsonItem["HoldPriceTotal"] = it->HoldPriceTotal;
-			jsonItem["AvgHoldPrice"] = it->AvgHoldPrice;
-			jsonItem["ClosePrice"] = it->ClosePrice;
-			jsonItem["OpenProfit"] = it->OpenProfit;
-
-			jsonResps.append(jsonItem);
-		}
+		jsonResps["CommodityID"] = vTotal->CommodityID;
+		jsonResps["CommodityName"] = vTotal->CommodityName;
+		jsonResps["OpenDirector"] = vTotal->OpenDirector;
+		jsonResps["Quantity"] = vTotal->Quantity;
+		jsonResps["OpenPriceTotal"] = vTotal->OpenPriceTotal;
+		jsonResps["AvgOpenPrice"] = vTotal->AvgOpenPrice;
+		jsonResps["HoldPriceTotal"] = vTotal->HoldPriceTotal;
+		jsonResps["AvgHoldPrice"] = vTotal->AvgHoldPrice;
+		jsonResps["ClosePrice"] = vTotal->ClosePrice;
+		jsonResps["OpenProfit"] = vTotal->OpenProfit;
 
 		Json::Value jsonRoot;
 		jsonRoot[RESPID] = RESP_OnRspQryHoldPositionTotal;
 		jsonRoot[RESPDESC] = "OnRspQryHoldPositionTotal";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -690,7 +676,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionTotal(std::vector<CXHoldPositionTotalIn
 ///查询市场开休市状态回报
 ///@param nMarketStatus：市场开休市状态。 MARKET_STATUS_OPEN：0 MARKET_STATUS_CLOSE：1
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryMarketStatus(int nMarketStatus, int errCode)
+void CXTradeSpiImpl::OnRspQryMarketStatus(int nMarketStatus, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -701,6 +687,7 @@ void CXTradeSpiImpl::OnRspQryMarketStatus(int nMarketStatus, int errCode)
 		jsonRoot[RESPDESC] = "OnRspQryMarketStatus";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -719,7 +706,7 @@ void CXTradeSpiImpl::OnRspQryMarketStatus(int nMarketStatus, int errCode)
 ///根据持仓单ID，获取持仓单信息回报
 ///@param pHoldPosition：持仓单信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryHoldPositionByID(const CXHoldPositionInfo* pHoldPosition, int errCode)
+void CXTradeSpiImpl::OnRspQryHoldPositionByID(const CXHoldPositionInfo* pHoldPosition, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -749,6 +736,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionByID(const CXHoldPositionInfo* pHoldPos
 		jsonRoot[RESPDESC] = "OnRspQryHoldPositionByID";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -762,7 +750,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionByID(const CXHoldPositionInfo* pHoldPos
 ///根据限价单ID，获取限价单信息回报
 ///@param pLimitOrder：限价单信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryLimitOrderByID(const CXLimitOrderInfo* pLimitOrder, int errCode)
+void CXTradeSpiImpl::OnRspQryLimitOrderByID(const CXLimitOrderInfo* pLimitOrder, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -786,6 +774,7 @@ void CXTradeSpiImpl::OnRspQryLimitOrderByID(const CXLimitOrderInfo* pLimitOrder,
 		jsonRoot[RESPDESC] = "OnRspQryLimitOrderByID";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -800,7 +789,7 @@ void CXTradeSpiImpl::OnRspQryLimitOrderByID(const CXLimitOrderInfo* pLimitOrder,
 ///根据平仓单ID，获取平仓信息回报
 ///@param pClosePosition：平仓信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryClosePositionByID(const CXClosePositionInfo* pClosePosition, int errCode)
+void CXTradeSpiImpl::OnRspQryClosePositionByID(const CXClosePositionInfo* pClosePosition, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -825,6 +814,7 @@ void CXTradeSpiImpl::OnRspQryClosePositionByID(const CXClosePositionInfo* pClose
 		jsonRoot[RESPDESC] = "OnRspQryClosePositionByID";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -838,7 +828,7 @@ void CXTradeSpiImpl::OnRspQryClosePositionByID(const CXClosePositionInfo* pClose
 ///根据商品ID，获取持仓汇总信息回报
 ///@param pTotal：持仓汇总信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryHoldPositionTotalByCommodityID(const CXHoldPositionTotalInfo* pTotal, int errCode)
+void CXTradeSpiImpl::OnRspQryHoldPositionTotalByCommodityID(const CXHoldPositionTotalInfo* pTotal, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -858,6 +848,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionTotalByCommodityID(const CXHoldPosition
 		jsonRoot[RESPDESC] = "OnRspQryHoldPositionTotalByCommodityID";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -872,7 +863,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionTotalByCommodityID(const CXHoldPosition
 ///根据商品ID，获取实时行情回报
 ///@param quote：实时行情。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryCommodityQuote(const CXRealTimeQuote* quote, int errCode)
+void CXTradeSpiImpl::OnRspQryCommodityQuote(const CXRealTimeQuote* quote, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -888,6 +879,7 @@ void CXTradeSpiImpl::OnRspQryCommodityQuote(const CXRealTimeQuote* quote, int er
 		jsonRoot[RESPDESC] = "OnRspQryCommodityQuote";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -902,7 +894,7 @@ void CXTradeSpiImpl::OnRspQryCommodityQuote(const CXRealTimeQuote* quote, int er
 ///根据商品ID，获取其市价建仓的配置信息回报
 ///@param pConf：市价建仓的配置信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryOpenMarketOrderConf(const CXOpenMarketOrderConf* pConf, int errCode)
+void CXTradeSpiImpl::OnRspQryOpenMarketOrderConf(const CXOpenMarketOrderConf* pConf, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -915,6 +907,7 @@ void CXTradeSpiImpl::OnRspQryOpenMarketOrderConf(const CXOpenMarketOrderConf* pC
 		jsonRoot[RESPDESC] = "OnRspQryOpenMarketOrderConf";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -928,7 +921,7 @@ void CXTradeSpiImpl::OnRspQryOpenMarketOrderConf(const CXOpenMarketOrderConf* pC
 ///根据商品ID，获取其限价建仓的配置信息回报
 ///@param pConf：限价建仓的配置信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryOpenLimitOrderConf(const CXOpenLimitOrderConf* pConf, int errCode)
+void CXTradeSpiImpl::OnRspQryOpenLimitOrderConf(const CXOpenLimitOrderConf* pConf, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -947,6 +940,7 @@ void CXTradeSpiImpl::OnRspQryOpenLimitOrderConf(const CXOpenLimitOrderConf* pCon
 		jsonRoot[RESPDESC] = "OnRspQryOpenLimitOrderConf";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -961,7 +955,7 @@ void CXTradeSpiImpl::OnRspQryOpenLimitOrderConf(const CXOpenLimitOrderConf* pCon
 ///根据商品ID，获取其市价平仓的配置信息回报
 ///@param pConf：市价平仓的配置信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryCloseMarketOrderConf(const CXCloseMarketOrderConf* pConf, int errCode)
+void CXTradeSpiImpl::OnRspQryCloseMarketOrderConf(const CXCloseMarketOrderConf* pConf, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -974,6 +968,7 @@ void CXTradeSpiImpl::OnRspQryCloseMarketOrderConf(const CXCloseMarketOrderConf* 
 		jsonRoot[RESPDESC] = "OnRspQryCloseMarketOrderConf";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
@@ -987,7 +982,7 @@ void CXTradeSpiImpl::OnRspQryCloseMarketOrderConf(const CXCloseMarketOrderConf* 
 ///根据商品ID，获取限价平仓的配置信息回报
 ///@param pConf：限价平仓的配置信息。
 ///@param errCode：出错信息。
-void CXTradeSpiImpl::OnRspQryLimitClosePositionConf(const CXLimitClosePositionConf* pConf, int errCode)
+void CXTradeSpiImpl::OnRspQryLimitClosePositionConf(const CXLimitClosePositionConf* pConf, int errCode, bool isLast)
 {
 	try{
 		Json::Value jsonResps;
@@ -1003,6 +998,7 @@ void CXTradeSpiImpl::OnRspQryLimitClosePositionConf(const CXLimitClosePositionCo
 		jsonRoot[RESPDESC] = "OnRspQryLimitClosePositionConf";
 		jsonRoot[RESPJSONS] = jsonResps;
 		jsonRoot[RESPERRCODE] = errCode;
+		jsonRoot[RESPISLAST] = isLast;
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);

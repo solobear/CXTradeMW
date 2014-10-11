@@ -96,8 +96,8 @@ struct CXCloseMarketOrderParam
 	long long nHoldPositionID;		///< 持仓ID
 	int nCommodityID;				///< 商品ID
 	int nQuantity;					///< 平仓数量
-	int nTradeRange;				///< 交易范围
-	double dbPrice;					///< 持仓单价
+	int nTradeRange;				///< 交易范围 允许的点差范围
+	double dbPrice;					///< 平仓价格
 	int nClosePositionType;			///< 平仓类型
 };
 
