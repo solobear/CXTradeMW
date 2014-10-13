@@ -124,21 +124,38 @@
     switch (streamEvent) {
         case NSStreamEventHasBytesAvailable:
             if (theStream == inputStream) {
+                uint8_t buffer[1024];
+                int len;
+                
                 while ([inputStream hasBytesAvailable]) {
-                    uint8_t buffer[4096];
-                    int actuallyRead;
-                    actuallyRead = [inputStream read:buffer maxLength:sizeof(buffer)];
+                    len = [inputStream read:buffer maxLength:sizeof(buffer)];
                     
-                    if (actuallyRead > 0) {
-                        NSString *output = [[NSString alloc] initWithBytes:buffer length:actuallyRead encoding:ENC];
-                        if (nil != output) {
-                            //NSLog(@"返回: %@", output);
-                            [spi ReceiveJsonMessage:output];
+                    if (len > 0) {
+                        //一行作位一次会话传给外边解析 Iterator buff.
+                        uint8_t tmp_buffer[1024];
+                        int tmp_buffer_start = 0;
+                        for (int i = 0; i < len; ++i)
+                        {
+                            if ('\n' == buffer[i])
+                            {
+                                for (int j = tmp_buffer_start; j < i + 1; ++j)
+                                {
+                                    tmp_buffer[j - tmp_buffer_start] = buffer[j];
+                                }
+                                NSString *output = [[NSString alloc] initWithBytes:tmp_buffer length:(i - tmp_buffer_start + 1) encoding:ENC];
+                                
+                                if (nil != output) {
+                                    //NSLog(@"返回: %@", output);
+                                    [spi ReceiveJsonMessage:output];
+                                }
+                                
+                                [output release];
+                                
+                                memset(tmp_buffer, 0, sizeof(uint8_t) * 1024);
+                                tmp_buffer_start = i + 1;
+                            }
                         }
-                        [output release];
-                        output = nil;
                     }
-                    
                 }
             }
             break;

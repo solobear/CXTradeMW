@@ -41,7 +41,7 @@
 #define RESPID                            "respID"
 #define RESPJSONS                         "respJsons"
 #define RESPERRCODE                       "respErr"
-#define RESPISLAST                        "respIsLast"
+#define RESPISLAST                        "isLast"
 
 // Respone Type
 #define RESP_OnRtnUserLogin                    1001

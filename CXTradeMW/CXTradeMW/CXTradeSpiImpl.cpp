@@ -204,6 +204,11 @@ void CXTradeSpiImpl::OnRtnRevokeLimitOrder(long long LimitOrderID, const CXProce
 void CXTradeSpiImpl::OnRtnSysBulletin(const CXSysBulletinInfo *pSysBulletin)
 {
 	try{
+		if (pSysBulletin == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["LoginID"] = pSysBulletin->LoginID;
 		jsonResps["BulletinID"] = pSysBulletin->BulletinID;
@@ -261,6 +266,11 @@ void CXTradeSpiImpl::OnRspUserLogin(const char* pszLoginAccount, int errCode, bo
 void CXTradeSpiImpl::OnRspOpenMarketOrder(const CXOpenMarketOrderParam *pRspOpenMarketOrderField, int errCode, bool isLast)
 {
 	try{
+		if (pRspOpenMarketOrderField == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["nCommodityID"] = pRspOpenMarketOrderField->nCommodityID;
 		jsonResps["nOpenDirector"] = pRspOpenMarketOrderField->nOpenDirector;
@@ -292,6 +302,11 @@ void CXTradeSpiImpl::OnRspOpenMarketOrder(const CXOpenMarketOrderParam *pRspOpen
 void CXTradeSpiImpl::OnRspCloseMarketOrder(const CXCloseMarketOrderParam *pOnRspCloseMarketOrderField, int errCode, bool isLast)
 {
 	try{
+		if (pOnRspCloseMarketOrderField == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["nHoldPositionID"] = pOnRspCloseMarketOrderField->nHoldPositionID;
 		jsonResps["nCommodityID"] = pOnRspCloseMarketOrderField->nCommodityID;
@@ -323,6 +338,11 @@ void CXTradeSpiImpl::OnRspCloseMarketOrder(const CXCloseMarketOrderParam *pOnRsp
 void CXTradeSpiImpl::OnRspOpenLimitOrder(const CXOpenLimitOrderParam *pOnRspOpenLimitOrderField, int errCode, bool isLast)
 {
 	try{
+		if (pOnRspOpenLimitOrderField == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["nExpireType"] = pOnRspOpenLimitOrderField->nExpireType;
 		jsonResps["nCommodityID"] = pOnRspOpenLimitOrderField->nCommodityID;
@@ -356,6 +376,11 @@ void CXTradeSpiImpl::OnRspOpenLimitOrder(const CXOpenLimitOrderParam *pOnRspOpen
 void CXTradeSpiImpl::OnRspLimitClosePosition(const CXCloseLimitOrderParam *pOnRspCloseLimitOrderField, int errCode, bool isLast)
 {
 	try{
+		if (pOnRspCloseLimitOrderField == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["nExpireType"] = pOnRspCloseLimitOrderField->nExpireType;
 		jsonResps["nCommodityID"] = pOnRspCloseLimitOrderField->nCommodityID;
@@ -388,6 +413,11 @@ void CXTradeSpiImpl::OnRspLimitClosePosition(const CXCloseLimitOrderParam *pOnRs
 void CXTradeSpiImpl::OnRspLimitRevoke(const CXLimitRevokeParam *pOnRspLimitRevokeField, int errCode, bool isLast)
 {
 	try{
+		if (pOnRspLimitRevokeField == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["nLimitOrderID"] = pOnRspLimitRevokeField->nLimitOrderID;
 		jsonResps["nCommodityID"] = pOnRspLimitRevokeField->nCommodityID;
@@ -417,6 +447,11 @@ void CXTradeSpiImpl::OnRspLimitRevoke(const CXLimitRevokeParam *pOnRspLimitRevok
 void CXTradeSpiImpl::OnRspCloseMarketOrderMany(const CXCloseMarketOrderManyParam *pOnRspCloseMarketOrderManyField, int errCode, bool isLast)
 {
 	try{
+		if (pOnRspCloseMarketOrderManyField == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["nQuantity"] = pOnRspCloseMarketOrderManyField->nQuantity;
 		jsonResps["nCommodityID"] = pOnRspCloseMarketOrderManyField->nCommodityID;
@@ -448,6 +483,11 @@ void CXTradeSpiImpl::OnRspCloseMarketOrderMany(const CXCloseMarketOrderManyParam
 void CXTradeSpiImpl::OnRspQryAccountInfo(const CXAccountInfo *pAccount, int errCode, bool isLast)
 {
 	try{
+		if (pAccount == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["Account"] = pAccount->Account;
 		jsonResps["LoginAccount"] = pAccount->LoginAccount;
@@ -483,6 +523,12 @@ void CXTradeSpiImpl::OnRspQryAccountInfo(const CXAccountInfo *pAccount, int errC
 void CXTradeSpiImpl::OnRspQryCommodity(const CXCommodityInfo* vCommodity, int errCode, bool isLast)
 {
 	try{
+		if (vCommodity == NULL)
+		{
+			printf("--OnRspQryCommodity return null! ret: %d\n", errCode);
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = vCommodity->CommodityID;
 		jsonResps["CommodityName"] = vCommodity->CommodityName;
@@ -522,6 +568,11 @@ void CXTradeSpiImpl::OnRspQryCommodity(const CXCommodityInfo* vCommodity, int er
 void CXTradeSpiImpl::OnRspQryPositionOrder(const CXHoldPositionInfo* vHoldPosition, int errCode, bool isLast)
 {
 	try{
+		if (vHoldPosition == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = vHoldPosition->CommodityID;
 		jsonResps["CommodityName"] = vHoldPosition->CommodityName;
@@ -567,6 +618,11 @@ void CXTradeSpiImpl::OnRspQryPositionOrder(const CXHoldPositionInfo* vHoldPositi
 void CXTradeSpiImpl::OnRspQryLimitOrder(const CXLimitOrderInfo* vLimitOrder, int errCode, bool isLast)
 {
 	try{
+		if (vLimitOrder == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = vLimitOrder->CommodityID;
 		jsonResps["CommodityName"] = vLimitOrder->CommodityName;
@@ -605,6 +661,11 @@ void CXTradeSpiImpl::OnRspQryLimitOrder(const CXLimitOrderInfo* vLimitOrder, int
 void CXTradeSpiImpl::OnRspQryClosePosition(const CXClosePositionInfo* vClosePosition, int errCode, bool isLast)
 {
 	try{
+		if (vClosePosition == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = vClosePosition->CommodityID;
 		jsonResps["CommodityName"] = vClosePosition->CommodityName;
@@ -645,6 +706,11 @@ void CXTradeSpiImpl::OnRspQryClosePosition(const CXClosePositionInfo* vClosePosi
 void CXTradeSpiImpl::OnRspQryHoldPositionTotal(const CXHoldPositionTotalInfo* vTotal, int errCode, bool isLast)
 {
 	try{
+		if (vTotal == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = vTotal->CommodityID;
 		jsonResps["CommodityName"] = vTotal->CommodityName;
@@ -691,11 +757,6 @@ void CXTradeSpiImpl::OnRspQryMarketStatus(int nMarketStatus, int errCode, bool i
 
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
-
-		//查询合约
-		if (CX_MARKET_STATUS_OPEN == nMarketStatus){
-			m_pTradeApi->ReqQryCommodity();
-		}
 	}
 	catch (std::exception &ex)
 	{
@@ -709,6 +770,11 @@ void CXTradeSpiImpl::OnRspQryMarketStatus(int nMarketStatus, int errCode, bool i
 void CXTradeSpiImpl::OnRspQryHoldPositionByID(const CXHoldPositionInfo* pHoldPosition, int errCode, bool isLast)
 {
 	try{
+		if (pHoldPosition == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = pHoldPosition->CommodityID;
 		jsonResps["CommodityName"] = pHoldPosition->CommodityName;
@@ -753,6 +819,11 @@ void CXTradeSpiImpl::OnRspQryHoldPositionByID(const CXHoldPositionInfo* pHoldPos
 void CXTradeSpiImpl::OnRspQryLimitOrderByID(const CXLimitOrderInfo* pLimitOrder, int errCode, bool isLast)
 {
 	try{
+		if (pLimitOrder == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = pLimitOrder->CommodityID;
 		jsonResps["CommodityName"] = pLimitOrder->CommodityName;
@@ -792,6 +863,11 @@ void CXTradeSpiImpl::OnRspQryLimitOrderByID(const CXLimitOrderInfo* pLimitOrder,
 void CXTradeSpiImpl::OnRspQryClosePositionByID(const CXClosePositionInfo* pClosePosition, int errCode, bool isLast)
 {
 	try{
+		if (pClosePosition == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = pClosePosition->CommodityID;
 		jsonResps["CommodityName"] = pClosePosition->CommodityName;
@@ -831,6 +907,11 @@ void CXTradeSpiImpl::OnRspQryClosePositionByID(const CXClosePositionInfo* pClose
 void CXTradeSpiImpl::OnRspQryHoldPositionTotalByCommodityID(const CXHoldPositionTotalInfo* pTotal, int errCode, bool isLast)
 {
 	try{
+		if (pTotal == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = pTotal->CommodityID;
 		jsonResps["CommodityName"] = pTotal->CommodityName;
@@ -866,6 +947,11 @@ void CXTradeSpiImpl::OnRspQryHoldPositionTotalByCommodityID(const CXHoldPosition
 void CXTradeSpiImpl::OnRspQryCommodityQuote(const CXRealTimeQuote* quote, int errCode, bool isLast)
 {
 	try{
+		if (quote == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = quote->CommodityID;
 		jsonResps["SellPrice"] = quote->SellPrice;
@@ -897,6 +983,11 @@ void CXTradeSpiImpl::OnRspQryCommodityQuote(const CXRealTimeQuote* quote, int er
 void CXTradeSpiImpl::OnRspQryOpenMarketOrderConf(const CXOpenMarketOrderConf* pConf, int errCode, bool isLast)
 {
 	try{
+		if (pConf == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = pConf->CommodityID;
 		jsonResps["MinQuantity"] = pConf->MinQuantity;
@@ -924,6 +1015,11 @@ void CXTradeSpiImpl::OnRspQryOpenMarketOrderConf(const CXOpenMarketOrderConf* pC
 void CXTradeSpiImpl::OnRspQryOpenLimitOrderConf(const CXOpenLimitOrderConf* pConf, int errCode, bool isLast)
 {
 	try{
+		if (pConf == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = pConf->CommodityID;
 		jsonResps["MinQuantity"] = pConf->MinQuantity;
@@ -958,6 +1054,11 @@ void CXTradeSpiImpl::OnRspQryOpenLimitOrderConf(const CXOpenLimitOrderConf* pCon
 void CXTradeSpiImpl::OnRspQryCloseMarketOrderConf(const CXCloseMarketOrderConf* pConf, int errCode, bool isLast)
 {
 	try{
+		if (pConf == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = pConf->CommodityID;
 		jsonResps["MinQuantity"] = pConf->MinQuantity;
@@ -985,6 +1086,11 @@ void CXTradeSpiImpl::OnRspQryCloseMarketOrderConf(const CXCloseMarketOrderConf* 
 void CXTradeSpiImpl::OnRspQryLimitClosePositionConf(const CXLimitClosePositionConf* pConf, int errCode, bool isLast)
 {
 	try{
+		if (pConf == NULL)
+		{
+			return;
+		}
+
 		Json::Value jsonResps;
 		jsonResps["CommodityID"] = pConf->CommodityID;
 		jsonResps["FixedSpread"] = pConf->FixedSpread;
