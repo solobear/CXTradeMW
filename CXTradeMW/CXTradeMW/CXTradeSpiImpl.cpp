@@ -3,7 +3,9 @@
 #include "CXTradeMWCommand.h"
 #include "CXTradeSpiImpl.h"
 #include "libs/jsoncpp/json.h"
+#include "log4z.h"
 
+using namespace zsummer::log4z;
 using namespace std;
 using namespace Json;
 
@@ -37,11 +39,11 @@ void CXTradeSpiImpl::OnRtnUserLogin(const CXProcessResult *result)
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
 
-		printf("--[TE] Login Result! Ret:%d, Msg:%s\n", result->RetCode, result->Message);
+		LOGI("--[TE] Login Result! Msg:" << result->Message << " , Ret:" << result->RetCode);
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -49,27 +51,30 @@ void CXTradeSpiImpl::OnRtnUserLogin(const CXProcessResult *result)
 ///@param pQuoteEvent：行情信息。
 void CXTradeSpiImpl::OnRtnQuote(const CXRealTimeQuote *quote)
 {
-	try{
-		Json::Value jsonResps;
-		jsonResps["CommodityID"] = quote->CommodityID;
-		jsonResps["LowPrice"] = quote->LowPrice;
-		jsonResps["BuyPrice"] = quote->BuyPrice;
-		jsonResps["SellPrice"] = quote->SellPrice;
-		jsonResps["HighPrice"] = quote->HighPrice;
-		jsonResps["QuoteTime"] = quote->QuoteTime;
-
-		Json::Value jsonRoot;
-		jsonRoot[RESPID] = RESP_OnRtnQuote;
-		jsonRoot[RESPDESC] = "OnRtnQuote";
-		jsonRoot[RESPJSONS] = jsonResps;
-		jsonRoot[RESPISLAST] = true;
-
-		//生成Json并送数据进队列
-		SendBack(jsonRoot);
-	}
-	catch (std::exception &ex)
+	if (m_bObMD)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		try{
+			Json::Value jsonResps;
+			jsonResps["CommodityID"] = quote->CommodityID;
+			jsonResps["LowPrice"] = quote->LowPrice;
+			jsonResps["BuyPrice"] = quote->BuyPrice;
+			jsonResps["SellPrice"] = quote->SellPrice;
+			jsonResps["HighPrice"] = quote->HighPrice;
+			jsonResps["QuoteTime"] = quote->QuoteTime;
+
+			Json::Value jsonRoot;
+			jsonRoot[RESPID] = RESP_OnRtnQuote;
+			jsonRoot[RESPDESC] = "OnRtnQuote";
+			jsonRoot[RESPJSONS] = jsonResps;
+			jsonRoot[RESPISLAST] = true;
+
+			//TODO 生成Json并送数据进队列
+			//SendBack(jsonRoot);
+		}
+		catch (std::exception &ex)
+		{
+			LOGE("--交易所数据异常: " << ex.what());
+		}
 	}
 }
 
@@ -94,7 +99,7 @@ void CXTradeSpiImpl::OnRtnOpenMarketOrder(long long HoldPositionID, const CXProc
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -119,7 +124,7 @@ void CXTradeSpiImpl::OnRtnCloseMarketOrder(long long HoldPositionID, const CXPro
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -144,7 +149,7 @@ void CXTradeSpiImpl::OnRtnOpenLimitOrder(long long LimitOrderID, const CXProcess
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -169,7 +174,7 @@ void CXTradeSpiImpl::OnRtnLimitClosePosition(long long HoldPositionID, const CXP
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -194,7 +199,7 @@ void CXTradeSpiImpl::OnRtnRevokeLimitOrder(long long LimitOrderID, const CXProce
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -231,7 +236,7 @@ void CXTradeSpiImpl::OnRtnSysBulletin(const CXSysBulletinInfo *pSysBulletin)
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -256,7 +261,7 @@ void CXTradeSpiImpl::OnRspUserLogin(const char* pszLoginAccount, int errCode, bo
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -291,7 +296,7 @@ void CXTradeSpiImpl::OnRspOpenMarketOrder(const CXOpenMarketOrderParam *pRspOpen
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -327,7 +332,7 @@ void CXTradeSpiImpl::OnRspCloseMarketOrder(const CXCloseMarketOrderParam *pOnRsp
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -365,7 +370,7 @@ void CXTradeSpiImpl::OnRspOpenLimitOrder(const CXOpenLimitOrderParam *pOnRspOpen
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -403,7 +408,7 @@ void CXTradeSpiImpl::OnRspLimitClosePosition(const CXCloseLimitOrderParam *pOnRs
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -436,7 +441,7 @@ void CXTradeSpiImpl::OnRspLimitRevoke(const CXLimitRevokeParam *pOnRspLimitRevok
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -472,7 +477,7 @@ void CXTradeSpiImpl::OnRspCloseMarketOrderMany(const CXCloseMarketOrderManyParam
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -512,7 +517,7 @@ void CXTradeSpiImpl::OnRspQryAccountInfo(const CXAccountInfo *pAccount, int errC
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -525,7 +530,7 @@ void CXTradeSpiImpl::OnRspQryCommodity(const CXCommodityInfo* vCommodity, int er
 	try{
 		if (vCommodity == NULL)
 		{
-			printf("--OnRspQryCommodity return null! ret: %d\n", errCode);
+			LOGI("--OnRspQryCommodity return null! ret: " << errCode);
 			return;
 		}
 
@@ -557,7 +562,7 @@ void CXTradeSpiImpl::OnRspQryCommodity(const CXCommodityInfo* vCommodity, int er
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -606,7 +611,7 @@ void CXTradeSpiImpl::OnRspQryPositionOrder(const CXHoldPositionInfo* vHoldPositi
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -651,7 +656,7 @@ void CXTradeSpiImpl::OnRspQryLimitOrder(const CXLimitOrderInfo* vLimitOrder, int
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -695,7 +700,7 @@ void CXTradeSpiImpl::OnRspQryClosePosition(const CXClosePositionInfo* vClosePosi
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -735,7 +740,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionTotal(const CXHoldPositionTotalInfo* vT
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -760,7 +765,7 @@ void CXTradeSpiImpl::OnRspQryMarketStatus(int nMarketStatus, int errCode, bool i
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -809,7 +814,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionByID(const CXHoldPositionInfo* pHoldPos
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -852,7 +857,7 @@ void CXTradeSpiImpl::OnRspQryLimitOrderByID(const CXLimitOrderInfo* pLimitOrder,
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -897,7 +902,7 @@ void CXTradeSpiImpl::OnRspQryClosePositionByID(const CXClosePositionInfo* pClose
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -936,7 +941,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionTotalByCommodityID(const CXHoldPosition
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -972,7 +977,7 @@ void CXTradeSpiImpl::OnRspQryCommodityQuote(const CXRealTimeQuote* quote, int er
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -1005,7 +1010,7 @@ void CXTradeSpiImpl::OnRspQryOpenMarketOrderConf(const CXOpenMarketOrderConf* pC
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -1043,7 +1048,7 @@ void CXTradeSpiImpl::OnRspQryOpenLimitOrderConf(const CXOpenLimitOrderConf* pCon
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -1076,7 +1081,7 @@ void CXTradeSpiImpl::OnRspQryCloseMarketOrderConf(const CXCloseMarketOrderConf* 
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }
 
@@ -1111,6 +1116,6 @@ void CXTradeSpiImpl::OnRspQryLimitClosePositionConf(const CXLimitClosePositionCo
 	}
 	catch (std::exception &ex)
 	{
-		printf("--交易所数据异常: %s\n", ex.what());
+		LOGE("--交易所数据异常: " << ex.what());
 	}
 }

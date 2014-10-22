@@ -1,5 +1,8 @@
 #include "StdAfx.h"
 #include "CXTradeMWSocketListener.h"
+#include "log4z.h"
+
+using namespace zsummer::log4z;
 
 CXMWSocketListener::CXMWSocketListener(void)
 {
@@ -14,7 +17,8 @@ CXMWSocketListener::~CXMWSocketListener(void)
 
 void CXMWSocketListener::OnAccept(int nErrorCode)
 {
-	printf("\n--收到新请求, 创建Socket连接\n");
+
+	LOGI("--收到新请求, 创建Socket连接");
 	CXMWSocket *pSocket = new CXMWSocket();
 	if (Accept(*pSocket))
 	{
@@ -23,11 +27,11 @@ void CXMWSocketListener::OnAccept(int nErrorCode)
 		UINT nPort;
 		pSocket->GetPeerName(strip, nPort);
 		strAddr.Format("%s:%d", strip, nPort);
-		printf("--开始处理连接: %s\n", strAddr);
+		LOGI("--开始处理连接: " << strAddr);
 	}
 	else
 	{
-		printf("--连接失败！\n");
+		LOGI("--连接失败！");
 		delete pSocket;
 	}
 
@@ -35,11 +39,11 @@ void CXMWSocketListener::OnAccept(int nErrorCode)
 }
 
 void CXMWSocketListener::OnConnect(int nErrorCode){
-	printf("-- CXMWSocketListener: OnConnect\n");
+	LOGI("-- CXMWSocketListener: OnConnect");
 	CAsyncSocket::OnConnect(nErrorCode);
 }
 
 void CXMWSocketListener::OnClose(int nErrorCode){
-	printf("-- CXMWSocketListener: OnClose\n");
+	LOGI("-- CXMWSocketListener: OnClose");
 	CAsyncSocket::OnClose(nErrorCode);
 }

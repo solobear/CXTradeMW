@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "CXTradeMWConfig.h"
 #include <iostream>
+#include "log4z.h"
 
+using namespace zsummer::log4z;
 using namespace std;
 
 CXTradeMWConfig* CXTradeMWConfig::m_pInstance = NULL;
@@ -20,6 +22,9 @@ CXTradeMWConfig::CXTradeMWConfig()   //构造函数是私有的
 	GetPrivateProfileString("APP", "VendorID", "", vendorID, PLEN, lpPath);
 	GetPrivateProfileString("APP", "VendorPassword", "", vendorPassword, PLEN, lpPath);
 	delete[] lpPath;
+
+	// LOG Level
+	logLevel = ILog4zManager::GetInstance()->GetLoggerLevel(LOG4Z_MAIN_LOGGER_ID);
 }
 
 ///
@@ -53,4 +58,10 @@ char* CXTradeMWConfig::VendorID(){
 // Vendor Pass
 char* CXTradeMWConfig::VendorPassword(){
 	return vendorPassword;
+}
+
+
+// Log Level
+int CXTradeMWConfig::LogLevel(){
+	return logLevel;
 }

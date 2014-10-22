@@ -11,12 +11,14 @@ class CXTradeSpiImpl : public CTradeSpi
 private:
 	CTradeApi *m_pTradeApi;
 	CXMWSocket *m_mwSocket;
+	bool m_bObMD;
 
 public:
 
 	CXTradeSpiImpl(CTradeApi* api, CXMWSocket* mwSocket){
 		m_pTradeApi = api;
 		m_mwSocket = mwSocket;
+		m_bObMD = true;
 	};
 
 	///发送交易行情和数据到客户端

@@ -6,6 +6,8 @@ class CXTradeMWConfig
 {
 
 private:
+	int logLevel;
+
 	char serverIP[PLEN];
 	int serverPort;
 
@@ -18,6 +20,8 @@ private:
 
 public:
 	static CXTradeMWConfig* Instance();
+
+	int LogLevel();//LogLevel
 
 	char* ServerIP();//IP
 	int ServerPort();//Port

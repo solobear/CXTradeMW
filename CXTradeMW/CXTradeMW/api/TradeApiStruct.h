@@ -85,9 +85,9 @@ struct CXOpenMarketOrderParam
 	int nCommodityID;		///< 商品ID
 	int nOpenDirector;		///< 建仓方向
 	double dbPrice;			///< 建仓单价
-	int nQuantity;			///< 建仓数量
-	double dbTradeRange;	///< 交易范围
-	int nOrderType;			///< 下单类型
+	int nQuantity;			///< 建仓数量 [1,250] 
+	double dbTradeRange;	///< 交易范围 [0,100] 
+	int nOrderType;			///< 下单类型 1:客户下单
 };
 
 /// 市价平仓单入参结构体
@@ -95,20 +95,20 @@ struct CXCloseMarketOrderParam
 {
 	long long nHoldPositionID;		///< 持仓ID
 	int nCommodityID;				///< 商品ID
-	int nQuantity;					///< 平仓数量
-	int nTradeRange;				///< 交易范围 允许的点差范围
+	int nQuantity;					///< 平仓数量  [1,250] 
+	int nTradeRange;				///< 交易范围 允许的点差范围 [0,100] 
 	double dbPrice;					///< 平仓价格
-	int nClosePositionType;			///< 平仓类型
+	int nClosePositionType;			///< 平仓类型 1:客户下单 
 };
 
 /// 限价单建仓入参结构体
 struct CXOpenLimitOrderParam
 {
 	int nCommodityID;			///< 商品ID
-	int nExpireType;			///< 过期类型
-	int nOpenDirector;			///< 建仓方向
-	int nQuantity;				///< 建仓数量
-	int nOrderType;				///< 下单类型
+	int nExpireType;			///< 过期类型 1:当日有效 
+	int nOpenDirector;			///< 建仓方向 1:买 CX_OPENDIRECTOR_BUY 2:卖 CX_OPENDIRFCTOR_SELL
+	int nQuantity;				///< 建仓数量 [1,250] 
+	int nOrderType;				///< 下单类型 1:客户下单 
 	double dbOrderPrice;		///< 建仓单价
 	double dbTPPrice;			///< 止盈价格
 	double dbSLPrice;			///< 止损价格
@@ -119,10 +119,10 @@ struct CXCloseLimitOrderParam
 {
 	int nCommodityID;			///< 商品ID
 	double dbClosePrice;		///< 平仓单价
-	int nExpireType;			///< 过期类型
+	int nExpireType;			///< 过期类型 1:当日有效 
 	long long nHoldPositionID;	///< 持仓ID
-	int nOrderType;				///< 下单类型
-	int nQuantity;				///< 平仓数量
+	int nOrderType;				///< 下单类型 1:客户下单 
+	int nQuantity;				///< 平仓数量 [1,250] 
 	double dbSLPrice;			///< 止盈价格
 	double dbTPPrice;			///< 止损价格
 };
@@ -132,19 +132,19 @@ struct CXLimitRevokeParam
 {
 	long long nLimitOrderID;	///< 限价单ID
 	int nCommodityID;			///< 商品ID
-	int nOrderType;				///< 下单类型
-	int nLimitType;				///< 限价单类型
+	int nOrderType;				///< 下单类型 1:客户下单 
+	int nLimitType;				///< 限价单类型 1:限价建仓 CX_LIMITTYPE_OPENLIMIT 2:限价止盈平仓 CX_LIMITTYPE_TP_CLOSE 3:限价止损平仓 CX_LIMITTYPE_SL_CLOSE
 };
 
 /// 批量平仓入参结构体
 struct CXCloseMarketOrderManyParam
 {
 	int nCommodityID;			///< 商品ID
-	int nQuantity;				///< 平仓数量
-	int nTradeRange;			///< 交易范围
+	int nQuantity;				///< 平仓数量 [1,250] 
+	int nTradeRange;			///< 交易范围 [0,100] 
 	double dbPrice;				///< 平仓价格
-	int nClosePositionType;		///< 平仓类型
-	int nCloseDirector;			///< 平仓方向
+	int nClosePositionType;		///< 平仓类型 1:一般平仓 
+	int nCloseDirector;			///< 平仓方向 1:买 CX_OPENDIRECTOR_BUY 2:卖 CX_OPENDIRFCTOR_SELL
 };
 
 /// 账户信息结构体

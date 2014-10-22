@@ -1,5 +1,9 @@
 #pragma once
 #include "CXTradeMWUtils.h"
+#include "log4z.h"
+
+using namespace zsummer::log4z;
+
 
 ///
 void CXUtils::CleanSlash(char *str)
@@ -18,7 +22,7 @@ void CXUtils::CleanSlash(char *str)
 void CXUtils::PrintCurrentDir(){
 	char buffer[1024];
 	_getcwd(buffer, 1024);
-	printf("--Current Dir: %s\n", buffer);
+	LOGI("--Current Dir: " << buffer);
 }
 
 //检查文件夹是否存在，不存在则创建之  

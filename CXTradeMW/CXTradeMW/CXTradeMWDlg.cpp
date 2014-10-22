@@ -6,10 +6,13 @@
 #include "CXTradeMW.h"
 #include "CXTradeMWDlg.h"
 #include "afxdialogex.h"
+#include "log4z.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+using namespace zsummer::log4z;
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
@@ -98,7 +101,9 @@ BOOL CCXTradeMWDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO:  在此添加额外的初始化代码
-
+	ILog4zManager::GetInstance()->Config("Log4Z.cfg");
+	ILog4zManager::GetInstance()->Start(); // 初始化Log4z
+	Start();                               // 直接启动中间件
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -167,7 +172,7 @@ void CCXTradeMWDlg::OnBnClickedBnExit()
 		// 停止socket
 		if (m_srvrSocket != INVALID_SOCKET)
 		{
-			printf("--停止Socket服务\n");
+			LOGI("停止Socket服务");
 			m_srvrSocket.Close();
 		}
 
@@ -183,8 +188,13 @@ void CCXTradeMWDlg::Start()
 	port = 7190;
 	if (m_srvrSocket.m_hSocket == INVALID_SOCKET)
 	{
+		LOGI("");
+		LOGI("");
+		LOGI("启动交易中间件，侦听端口: " << port);
+		LOGI("");
+		LOGI("");
+
 		//创建监听套接字,激发FD_ACCEPT事件
-		printf("\n启动交易中间件，侦听端口: %d\n\n", port);
 		BOOL bFlag = m_srvrSocket.Create(port, SOCK_STREAM, FD_READ | FD_WRITE | FD_OOB | FD_ACCEPT | FD_CONNECT | FD_CLOSE);
 		if (!bFlag)
 		{

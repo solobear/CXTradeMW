@@ -44,10 +44,10 @@ protected:
 	UINT m_nLength;
 
 	// 消息缓冲区
-	char m_recvBuf[4096];     //接收缓冲区
+	char m_recvBuf[2048];     //接收缓冲区
 
 	// 存数据进队列
-	char m_sendBuf[4096];     //发送缓冲区
+	char m_sendBuf[2048];     //发送缓冲区
 	Mutex m_lock;	//创建一个互斥对象 
 	deque<string> m_sendQue;  //发送数据队列
 

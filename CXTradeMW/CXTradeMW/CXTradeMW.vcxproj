@@ -80,7 +80,8 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy /y "$(ProjectDir)/CXTradeMW.ini" "$(TargetDir)"</Command>
+      <Command>copy /y "$(ProjectDir)conf\CXTradeMW.ini" "$(TargetDir)";
+copy /y "$(ProjectDir)conf\Log4Z.cfg" "$(TargetDir)";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -118,7 +119,8 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy /y "$(ProjectDir)/CXTradeMW.ini" "$(TargetDir)"</Command>
+      <Command>copy /y "$(ProjectDir)conf\CXTradeMW.ini" "$(TargetDir)";
+copy /y "$(ProjectDir)conf\Log4Z.cfg" "$(TargetDir)";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -134,6 +136,7 @@
     <ClInclude Include="CXTradeSpiImpl.h" />
     <ClInclude Include="CXTradeMWUtils.h" />
     <ClInclude Include="Lock.h" />
+    <ClInclude Include="log4z.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -147,6 +150,7 @@
     <ClCompile Include="CXTradeSpiImpl.cpp" />
     <ClCompile Include="CXTradeMWUtils.cpp" />
     <ClCompile Include="Lock.cpp" />
+    <ClCompile Include="log4z.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -156,7 +160,8 @@
     <ResourceCompile Include="CXTradeMW.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CXTradeMW.ini" />
+    <None Include="conf\CXTradeMW.ini" />
+    <None Include="conf\Log4Z.cfg" />
     <None Include="res\CXTradeMW.rc2" />
   </ItemGroup>
   <ItemGroup>

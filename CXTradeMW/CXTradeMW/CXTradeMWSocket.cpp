@@ -9,7 +9,9 @@
 #include "CXTradeMWConfig.h"
 #include "CXTradeSpiImpl.h"
 #include "api/TradeApi.h"
+#include "log4z.h"
 
+using namespace zsummer::log4z;
 using namespace std;
 using namespace Json;
 
@@ -32,7 +34,9 @@ CXMWSocket::CXMWSocket(void)
 ///
 CXMWSocket::~CXMWSocket(void)
 {
-	printf("--Done!\n\n");
+	LOGI("--Done!");
+	LOGI("");
+	LOGI("");
 
 	// 释放 TradeAPI
 	pApi = NULL;
@@ -42,12 +46,12 @@ CXMWSocket::~CXMWSocket(void)
 ///
 void CXMWSocket::OnReceive(int nErrorCode)
 {
-	//printf("--2.4 OnReceive\n");
+	//LOGD("--2.4 OnReceive");
 
 	// 收到数据
 	m_nLength = Receive(m_recvBuf, sizeof(m_recvBuf), 0); //接收数据
 	m_recvBuf[m_nLength] = '\0';
-	cout << "--收到请求: " << m_recvBuf;
+	//LOGD("--收到请求: " << m_recvBuf);
 
 	//////////////////////////////////////////
 	Json::Reader jsonReader;  // Reader
@@ -63,11 +67,11 @@ void CXMWSocket::OnReceive(int nErrorCode)
 			commandID = jsonRoot["commandID"].asInt();    // CommandID
 			jsonParams = jsonRoot["jsonParams"];          // 参数列表
 			//if (!jsonParams.isNull()){
-			//	printf("--请求参数: %s\n", jsonParams);
+			//	LOGI("--请求参数: " << jsonParams);
 			//}
 			switch (commandID){
 			case REQ_CONNECT:
-				printf("\n--登陆CX交易接口:\n");
+				LOGI("--登陆CX交易接口:");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					username = jsonRoot["username"].asCString();
 					password = jsonRoot["password"].asCString();
@@ -78,7 +82,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 				}
 				break;
 			case Req_OpenMarketOrder:
-				printf(" OpenMarketOrder\n");
+				LOGI("--收到请求：CommandID=" << commandID << " OpenMarketOrder");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					CXOpenMarketOrderParam param;
 					param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -91,7 +95,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 				}
 				break;
 			case Req_CloseMarketOrder:
-				printf(" Req_CloseMarketOrder\n");
+				LOGI("--收到请求：CommandID=" << commandID << " Req_CloseMarketOrder");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					CXCloseMarketOrderParam param;
 					param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -104,7 +108,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 				}
 				break;
 			case Req_OpenLimitOrder:
-				printf(" Req_OpenLimitOrder\n");
+				LOGI("--收到请求：CommandID=" << commandID << " Req_OpenLimitOrder");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					CXOpenLimitOrderParam param;
 					param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -119,7 +123,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 				}
 				break;
 			case Req_LimitClosePosition:
-				printf(" Req_LimitClosePosition\n");
+				LOGI("--收到请求：CommandID=" << commandID << " Req_LimitClosePosition");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					CXCloseLimitOrderParam param;
 					param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -133,7 +137,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 				}
 				break;
 			case Req_LimitRevoke:
-				printf(" Req_LimitRevoke\n");
+				LOGI("--收到请求：CommandID=" << commandID << " Req_LimitRevoke");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					CXLimitRevokeParam param;
 					param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -144,7 +148,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 				}
 				break;
 			case Req_CloseMarketOrderMany:
-				printf(" Req_CloseMarketOrderMany\n");
+				LOGI("--收到请求：CommandID=" << commandID << " Req_CloseMarketOrderMany");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					CXCloseMarketOrderManyParam param;
 					param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -157,56 +161,56 @@ void CXMWSocket::OnReceive(int nErrorCode)
 				}
 				break;
 			case ReqQry_AccountInfo:
-				printf(" ReqQry_AccountInfo\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_AccountInfo");
 				pApi->ReqQryAccountInfo();
 				break;
 			case ReqQry_Commodity:
-				printf(" ReqQry_Commodity\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_Commodity");
 				pApi->ReqQryCommodity();
 				break;
 			case ReqQry_PositionOrder:
-				printf(" ReqQry_PositionOrder\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_PositionOrder");
 				pApi->ReqQryPositionOrder();
 				break;
 			case ReqQry_LimitOrder:
-				printf(" ReqQry_LimitOrder\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_LimitOrder");
 				pApi->ReqQryLimitOrder();
 				break;
 			case ReqQry_ClosePosition:
-				printf(" ReqQry_ClosePosition\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_ClosePosition");
 				pApi->ReqQryClosePosition();
 				break;
 			case ReqQry_HoldPositionTotal:
-				printf(" ReqQry_HoldPositionTotal\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_HoldPositionTotal");
 				pApi->ReqQryHoldPositionTotal();
 				break;
 			case ReqQry_MarketStatus:
-				printf(" ReqQry_MarketStatus\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_MarketStatus");
 				pApi->ReqQryMarketStatus();
 				break;
 			case ReqQry_HoldPositionByID:
-				printf(" ReqQry_HoldPositionByID\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_HoldPositionByID");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					long nHoldPositionID = jsonRoot["nHoldPositionID"].asUInt();
 					pApi->ReqQryHoldPositionByID(nHoldPositionID);
 				}
 				break;
 			case ReqQry_LimitOrderByID:
-				printf(" ReqQry_LimitOrderByID\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_LimitOrderByID");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					long nLimitOrderID = jsonRoot["nLimitOrderID"].asUInt();
 					pApi->ReqQryLimitOrderByID(nLimitOrderID);
 				}
 				break;
 			case ReqQry_ClosePositionByID:
-				printf(" ReqQry_ClosePositionByID\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_ClosePositionByID");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					long nClosePositionID = jsonRoot["nClosePositionID"].asUInt();
 					pApi->ReqQryClosePositionByID(nClosePositionID);
 				}
 				break;
 			case ReqQry_HoldPositionTotalByCommodityID:
-				printf(" ReqQry_HoldPositionTotalByCommodityID\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_HoldPositionTotalByCommodityID");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					long nCommodityID = jsonRoot["nCommodityID"].asInt();
 					long nOpenDirector = jsonRoot["nOpenDirector"].asInt();
@@ -214,57 +218,57 @@ void CXMWSocket::OnReceive(int nErrorCode)
 				}
 				break;
 			case ReqQry_CommodityQuote:
-				printf(" ReqQry_CommodityQuote\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_CommodityQuote");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					long nCommodityID = jsonRoot["nCommodityID"].asInt();
 					pApi->ReqQryCommodityQuote(nCommodityID);
 				}
 				break;
 			case ReqQry_OpenMarketOrderConf:
-				printf(" ReqQry_OpenMarketOrderConf\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_OpenMarketOrderConf");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					long nCommodityID = jsonRoot["nCommodityID"].asInt();
 					pApi->ReqQryOpenMarketOrderConf(nCommodityID);
 				}
 				break;
 			case ReqQry_OpenLimitOrderConf:
-				printf(" ReqQry_OpenLimitOrderConf\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_OpenLimitOrderConf");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					long nCommodityID = jsonRoot["nCommodityID"].asInt();
 					pApi->ReqQryOpenLimitOrderConf(nCommodityID);
 				}
 				break;
 			case ReqQry_CloseMarketOrderConf:
-				printf(" ReqQry_CloseMarketOrderConf\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_CloseMarketOrderConf");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					long nCommodityID = jsonRoot["nCommodityID"].asInt();
 					pApi->ReqQryCloseMarketOrderConf(nCommodityID);
 				}
 				break;
 			case ReqQry_LimitClosePositionConf:
-				printf(" ReqQry_LimitClosePositionConf\n");
+				LOGI("--收到请求：CommandID=" << commandID << " ReqQry_LimitClosePositionConf");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 					long nCommodityID = jsonRoot["nCommodityID"].asInt();
 					pApi->ReqQryLimitClosePositionConf(nCommodityID);
 				}
 				break;
 			case REQ_RELEASE:
-				printf(" Release\n");
+				LOGI("--收到请求：CommandID=" << commandID << " Release");
 				pApi->Release();
 				STOP = true; // 退出数据处理线程
 				break;
 			default:
-				printf(" Unknown Command\n");
+				LOGA("--未知请求: " << m_recvBuf);
 				break;
 			}
 		}
 		else{
-			cout << "--ERROR: 无效请求" << endl;
+			LOGE("--ERROR: 无效请求" << m_recvBuf);
 		}
 	}
 	catch (std::exception &ex)
 	{
-		printf("--请求数据异常: %s\n", ex.what());
+		LOGE("--请求数据异常: " << ex.what());
 	}
 
 	//重置Buf
@@ -277,7 +281,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 ///
 void CXMWSocket::OnSend(int nErrorCode)
 {
-	//printf("--2.5 OnSend\n");
+	//LOGD("--2.5 OnSend");
 
 
 	/////////////////////////////////////////
@@ -286,7 +290,7 @@ void CXMWSocket::OnSend(int nErrorCode)
 
 ///
 void CXMWSocket::OnClose(int nErrorCode){
-	//printf("--2.0 OnClose\n");
+	//LOGD("--2.0 OnClose");
 
 	// STOP
 	STOP = true;
@@ -302,7 +306,7 @@ void CXMWSocket::OnClose(int nErrorCode){
 	// 停socket
 	if (m_hSocket != INVALID_SOCKET)
 	{
-		printf("--断开该Socket连接\n");
+		LOGI("--断开该Socket连接");
 		Close();
 	}
 
@@ -339,14 +343,16 @@ void CXMWSocket::SendBackTradeData()
 
 			// 有数据才处理
 			if (m_sendQue.size()>0 && m_sendQue.size()<1000){
-				//cout << "--  取数据, size: " << m_sendQue.size() << " = " << m_sendQue.front();
-
 				strcat_s(m_sendBuf, m_sendQue.front().c_str());
-				//cout << strlen(m_sendBuf) << endl;
-				//cout << "--原始数据: " << m_sendQue.front() << endl;
-				//DEBUG
-				//cout << "--发送数据: " << m_sendBuf;
-				//cout << "--发送数据! " << endl;
+
+				//LOGD("--  取数据, size: " << m_sendQue.size() << " = " << m_sendQue.front());
+
+				// 仅仅 LogLevel=DEBUG 的时候才显示内容
+				if (CXTradeMWConfig::Instance()->LogLevel()<LOG_LEVEL_INFO){
+					m_sendBuf[strlen(m_sendBuf) - 1] = '\0';
+					LOGD("--发送数据: " << m_sendBuf);
+					m_sendBuf[strlen(m_sendBuf) - 1] = '\n';
+				}
 
 				// 发送数据
 				Send(m_sendBuf, strlen(m_sendBuf));
@@ -355,7 +361,7 @@ void CXMWSocket::SendBackTradeData()
 				m_lock.Lock();
 				m_sendQue.pop_front();
 				m_lock.Unlock();
-				//cout << "--  取后数据, size: " << m_sendQue.size() << endl;
+				//LOGD("--  取后数据, size: " << m_sendQue.size());
 
 				//重置Buf
 				memset(m_sendBuf, 0, sizeof(m_sendBuf));
@@ -381,13 +387,13 @@ void CXMWSocket::Enque(string str){
 			return;
 		}
 
-		//cout << "--  收到数据, size: " << m_sendQue.size() << " = " << str;
+		//LOGD("--  收到数据, size: " << m_sendQue.size() << " = ");
 
 		m_lock.Lock();
 		m_sendQue.push_back(str);
 		m_lock.Unlock();
 
-		//cout << "--存数据完毕." << endl;
+		//LOGD("--存数据完毕.");
 	}
 	catch (std::exception &e){
 		cout << e.what() << endl;
@@ -424,24 +430,27 @@ void CXMWSocket::Login()
 		int res = pApi->Init();
 		if (res)
 		{
-			cout << "--CXTradeApi Init | Result: " << res << endl;
+			LOGE("--CXTradeApi Init Failed, Result: " << res);
 			AfxMessageBox(_T("交易接口初始化失败!"));
 			return;
 		}
 
 		//用户名/密码
-		//printf("--CXTradeApi|Login with %s:%s\n", username, password);
+		//LOGI("--CXTradeApi| Login with " << username);
 		char* u = new char[64];
 		char* p = new char[64];
 		strcpy_s(u, 64, username);
 		strcpy_s(p, 64, password);
-		printf("--CXTradeApi | Login as %s\n", u);
+		LOGI("--CXTradeApi | Login as " << u);
 		pApi->ReqUserLogin(u, p);
 
 		pApi->Join();
-		cout << "--退出CX交易接口" << endl;
+		LOGI("--退出CX交易接口");
 	}
 	catch (std::exception &e){
-		cout << e.what() << endl;
+		LOGE(e.what());
+	}
+	catch (...){
+		LOGI ("Unknown Error: CXTradeApi");
 	}
 }
