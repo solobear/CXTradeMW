@@ -344,15 +344,7 @@ void CXMWSocket::SendBackTradeData()
 			// 有数据才处理
 			if (m_sendQue.size()>0 && m_sendQue.size()<1000){
 				strcat_s(m_sendBuf, m_sendQue.front().c_str());
-
 				//LOGD("--  取数据, size: " << m_sendQue.size() << " = " << m_sendQue.front());
-
-				// 仅仅 LogLevel=DEBUG 的时候才显示内容
-				if (CXTradeMWConfig::Instance()->LogLevel()<LOG_LEVEL_INFO){
-					m_sendBuf[strlen(m_sendBuf) - 1] = '\0';
-					LOGD("--发送数据: " << m_sendBuf);
-					m_sendBuf[strlen(m_sendBuf) - 1] = '\n';
-				}
 
 				// 发送数据
 				Send(m_sendBuf, strlen(m_sendBuf));
@@ -362,6 +354,12 @@ void CXMWSocket::SendBackTradeData()
 				m_sendQue.pop_front();
 				m_lock.Unlock();
 				//LOGD("--  取后数据, size: " << m_sendQue.size());
+
+				// 仅仅 LogLevel=DEBUG 的时候才显示内容
+				if (CXTradeMWConfig::Instance()->LogLevel()<LOG_LEVEL_INFO){
+					m_sendBuf[strlen(m_sendBuf) - 1] = '\0';
+					LOGD("--发送数据: " << m_sendBuf);
+				}
 
 				//重置Buf
 				memset(m_sendBuf, 0, sizeof(m_sendBuf));
