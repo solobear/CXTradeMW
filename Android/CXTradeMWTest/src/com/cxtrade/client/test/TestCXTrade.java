@@ -64,7 +64,7 @@ public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> 
 			
 			sleep(5000);
 			
-			/*
+/*
 			logger.info("--连接中间件");
 			CXTradeMWSpi spi = new CXTradeMWSpiImpl();
 			CXTradeMWClient client2 = new CXTradeMWClient(spi);
@@ -72,7 +72,16 @@ public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> 
 			client2.connect("10.0.2.2", 7190);//Localhost
 			
 			logger.info("--登陆!");
-			client2.login("003098765432106", "123456");
+			sleep(3000);
+			client2.login("003098765432108", "123456");
+			sleep(3000);
+			client2.reqQryMarketStatus();
+			sleep(1000);
+			client2.reqQryCommodity();
+			client2.reqQryAccountInfo();
+			
+			client2.reqQryCommodity();
+			
 			*/
 		} catch (Exception e) {
 			e.printStackTrace();

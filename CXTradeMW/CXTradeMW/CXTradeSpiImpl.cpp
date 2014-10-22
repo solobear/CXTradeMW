@@ -211,6 +211,7 @@ void CXTradeSpiImpl::OnRtnSysBulletin(const CXSysBulletinInfo *pSysBulletin)
 	try{
 		if (pSysBulletin == NULL)
 		{
+			LOGE("--接收异常，OnRtnSysBulletin return null!");
 			return;
 		}
 
@@ -273,6 +274,7 @@ void CXTradeSpiImpl::OnRspOpenMarketOrder(const CXOpenMarketOrderParam *pRspOpen
 	try{
 		if (pRspOpenMarketOrderField == NULL)
 		{
+			LOGE("--接收异常，OnRspOpenMarketOrder return null! ret: " << errCode);
 			return;
 		}
 
@@ -309,6 +311,7 @@ void CXTradeSpiImpl::OnRspCloseMarketOrder(const CXCloseMarketOrderParam *pOnRsp
 	try{
 		if (pOnRspCloseMarketOrderField == NULL)
 		{
+			LOGE("--接收异常，OnRspCloseMarketOrder return null! ret: " << errCode);
 			return;
 		}
 
@@ -345,6 +348,7 @@ void CXTradeSpiImpl::OnRspOpenLimitOrder(const CXOpenLimitOrderParam *pOnRspOpen
 	try{
 		if (pOnRspOpenLimitOrderField == NULL)
 		{
+			LOGE("--接收异常，OnRspOpenLimitOrder return null! ret: " << errCode);
 			return;
 		}
 
@@ -383,6 +387,7 @@ void CXTradeSpiImpl::OnRspLimitClosePosition(const CXCloseLimitOrderParam *pOnRs
 	try{
 		if (pOnRspCloseLimitOrderField == NULL)
 		{
+			LOGE("--接收异常，OnRspLimitClosePosition return null! ret: " << errCode);
 			return;
 		}
 
@@ -420,6 +425,7 @@ void CXTradeSpiImpl::OnRspLimitRevoke(const CXLimitRevokeParam *pOnRspLimitRevok
 	try{
 		if (pOnRspLimitRevokeField == NULL)
 		{
+			LOGE("--接收异常，OnRspLimitRevoke return null! ret: " << errCode);
 			return;
 		}
 
@@ -454,6 +460,7 @@ void CXTradeSpiImpl::OnRspCloseMarketOrderMany(const CXCloseMarketOrderManyParam
 	try{
 		if (pOnRspCloseMarketOrderManyField == NULL)
 		{
+			LOGE("--接收异常，OnRspCloseMarketOrderMany return null! ret: " << errCode);
 			return;
 		}
 
@@ -490,6 +497,7 @@ void CXTradeSpiImpl::OnRspQryAccountInfo(const CXAccountInfo *pAccount, int errC
 	try{
 		if (pAccount == NULL)
 		{
+			LOGE("--接收异常，OnRspQryAccountInfo return null! ret: " << errCode);
 			return;
 		}
 
@@ -530,7 +538,7 @@ void CXTradeSpiImpl::OnRspQryCommodity(const CXCommodityInfo* vCommodity, int er
 	try{
 		if (vCommodity == NULL)
 		{
-			LOGI("--OnRspQryCommodity return null! ret: " << errCode);
+			LOGE("--接收异常，OnRspQryCommodity return null! ret: " << errCode);
 			return;
 		}
 
@@ -575,6 +583,7 @@ void CXTradeSpiImpl::OnRspQryPositionOrder(const CXHoldPositionInfo* vHoldPositi
 	try{
 		if (vHoldPosition == NULL)
 		{
+			LOGE("--接收异常，OnRspQryPositionOrder return null! ret: " << errCode);
 			return;
 		}
 
@@ -625,6 +634,7 @@ void CXTradeSpiImpl::OnRspQryLimitOrder(const CXLimitOrderInfo* vLimitOrder, int
 	try{
 		if (vLimitOrder == NULL)
 		{
+			LOGE("--接收异常，OnRspQryLimitOrder return null! ret: " << errCode);
 			return;
 		}
 
@@ -668,6 +678,7 @@ void CXTradeSpiImpl::OnRspQryClosePosition(const CXClosePositionInfo* vClosePosi
 	try{
 		if (vClosePosition == NULL)
 		{
+			LOGE("--接收异常，OnRspQryClosePosition return null! ret: " << errCode);
 			return;
 		}
 
@@ -713,6 +724,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionTotal(const CXHoldPositionTotalInfo* vT
 	try{
 		if (vTotal == NULL)
 		{
+			LOGE("--接收异常，OnRspQryHoldPositionTotal return null! ret: " << errCode);
 			return;
 		}
 
@@ -777,6 +789,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionByID(const CXHoldPositionInfo* pHoldPos
 	try{
 		if (pHoldPosition == NULL)
 		{
+			LOGE("--接收异常，OnRspQryHoldPositionByID return null! ret: " << errCode);
 			return;
 		}
 
@@ -826,6 +839,7 @@ void CXTradeSpiImpl::OnRspQryLimitOrderByID(const CXLimitOrderInfo* pLimitOrder,
 	try{
 		if (pLimitOrder == NULL)
 		{
+			LOGE("--接收异常，OnRspQryLimitOrderByID return null! ret: " << errCode);
 			return;
 		}
 
@@ -870,6 +884,7 @@ void CXTradeSpiImpl::OnRspQryClosePositionByID(const CXClosePositionInfo* pClose
 	try{
 		if (pClosePosition == NULL)
 		{
+			LOGE("--接收异常，OnRspQryClosePositionByID return null! ret: " << errCode);
 			return;
 		}
 
@@ -914,6 +929,7 @@ void CXTradeSpiImpl::OnRspQryHoldPositionTotalByCommodityID(const CXHoldPosition
 	try{
 		if (pTotal == NULL)
 		{
+			LOGE("--接收异常，OnRspQryHoldPositionTotalByCommodityID return null! ret: " << errCode);
 			return;
 		}
 
@@ -954,6 +970,7 @@ void CXTradeSpiImpl::OnRspQryCommodityQuote(const CXRealTimeQuote* quote, int er
 	try{
 		if (quote == NULL)
 		{
+			LOGE("--接收异常，OnRspQryCommodityQuote return null! ret: " << errCode);
 			return;
 		}
 
@@ -990,6 +1007,7 @@ void CXTradeSpiImpl::OnRspQryOpenMarketOrderConf(const CXOpenMarketOrderConf* pC
 	try{
 		if (pConf == NULL)
 		{
+			LOGE("--接收异常，OnRspQryOpenMarketOrderConf return null! ret: " << errCode);
 			return;
 		}
 
@@ -1022,6 +1040,7 @@ void CXTradeSpiImpl::OnRspQryOpenLimitOrderConf(const CXOpenLimitOrderConf* pCon
 	try{
 		if (pConf == NULL)
 		{
+			LOGE("--接收异常，OnRspQryOpenLimitOrderConf return null! ret: " << errCode);
 			return;
 		}
 
@@ -1061,6 +1080,7 @@ void CXTradeSpiImpl::OnRspQryCloseMarketOrderConf(const CXCloseMarketOrderConf* 
 	try{
 		if (pConf == NULL)
 		{
+			LOGE("--接收异常，OnRspQryCloseMarketOrderConf return null! ret: " << errCode);
 			return;
 		}
 
@@ -1093,6 +1113,7 @@ void CXTradeSpiImpl::OnRspQryLimitClosePositionConf(const CXLimitClosePositionCo
 	try{
 		if (pConf == NULL)
 		{
+			LOGE("--接收异常，OnRspQryLimitClosePositionConf return null! ret: " << errCode);
 			return;
 		}
 

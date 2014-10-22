@@ -15,6 +15,9 @@ using namespace zsummer::log4z;
 using namespace std;
 using namespace Json;
 
+/// COUNT
+int CXMWSocket::COUNT = 0;
+
 ///
 CXMWSocket::CXMWSocket(void)
 	: m_nLength(0)
@@ -358,7 +361,7 @@ void CXMWSocket::SendBackTradeData()
 				// 仅仅 LogLevel=DEBUG 的时候才显示内容
 				if (CXTradeMWConfig::Instance()->LogLevel()<LOG_LEVEL_INFO){
 					m_sendBuf[strlen(m_sendBuf) - 1] = '\0';
-					LOGD("--发送数据: " << m_sendBuf);
+					LOGI("--发送数据: " << m_sendBuf);
 				}
 
 				//重置Buf
@@ -414,7 +417,9 @@ void CXMWSocket::Login()
 {
 	try{
 		CXUtils::PrintCurrentDir();
-		char* dir = "./log/";
+		char dir[30] = {0};
+		sprintf_s(dir, "./log/%d", COUNT++);
+
 		CXUtils::CheckDir(dir);
 		pApi = CTradeApi::CreateTradeApi(dir);
 		pSpi = new CXTradeSpiImpl(pApi, this);
@@ -429,7 +434,7 @@ void CXMWSocket::Login()
 		if (res)
 		{
 			LOGE("--CXTradeApi Init Failed, Result: " << res);
-			AfxMessageBox(_T("交易接口初始化失败!"));
+			LOGE("交易接口初始化失败!");
 			return;
 		}
 
@@ -447,8 +452,5 @@ void CXMWSocket::Login()
 	}
 	catch (std::exception &e){
 		LOGE(e.what());
-	}
-	catch (...){
-		LOGI ("Unknown Error: CXTradeApi");
 	}
 }

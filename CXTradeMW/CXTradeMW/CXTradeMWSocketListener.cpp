@@ -17,7 +17,8 @@ CXMWSocketListener::~CXMWSocketListener(void)
 
 void CXMWSocketListener::OnAccept(int nErrorCode)
 {
-
+	LOGI("");
+	LOGI("");
 	LOGI("--收到新请求, 创建Socket连接");
 	CXMWSocket *pSocket = new CXMWSocket();
 	if (Accept(*pSocket))

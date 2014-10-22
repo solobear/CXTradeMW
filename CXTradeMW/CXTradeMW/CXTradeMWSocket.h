@@ -21,6 +21,9 @@ public:
 	virtual void OnClose(int nErrorCode);
 
 protected:
+	static int COUNT;
+
+protected:
 	bool STOP;
 
 	// CXTradeApi: Req and Resp

@@ -185,42 +185,49 @@ void CCXTradeMWDlg::OnBnClickedBnExit()
 /// 启动中间件
 void CCXTradeMWDlg::Start()
 {
-	port = 7190;
-	if (m_srvrSocket.m_hSocket == INVALID_SOCKET)
-	{
-		LOGI("");
-		LOGI("");
-		LOGI("启动交易中间件，侦听端口: " << port);
-		LOGI("");
-		LOGI("");
-
-		//创建监听套接字,激发FD_ACCEPT事件
-		BOOL bFlag = m_srvrSocket.Create(port, SOCK_STREAM, FD_READ | FD_WRITE | FD_OOB | FD_ACCEPT | FD_CONNECT | FD_CLOSE);
-		if (!bFlag)
+	try{
+		port = 7190;
+		if (m_srvrSocket.m_hSocket == INVALID_SOCKET)
 		{
-			AfxMessageBox(_T("Socket创建失败!"));
-			m_srvrSocket.Close();
-			PostQuitMessage(0);
+			LOGI("");
+			LOGI("");
+			LOGI("启动交易中间件，侦听端口: " << port);
+			LOGI("");
 
-			return;
-		}
-
-		// 禁用再次启动按钮
-		GetDlgItem(IDC_BN_START)->EnableWindow(FALSE);
-
-		//监听成功,等待连接请求
-		if (!m_srvrSocket.Listen())//如果监听失败
-		{
-			int nErrorCode = m_srvrSocket.GetLastError();	//检测错误信息
-			if (nErrorCode != WSAEWOULDBLOCK)				//如果不是线程阻塞
+			//创建监听套接字,激发FD_ACCEPT事件
+			BOOL bFlag = m_srvrSocket.Create(port, SOCK_STREAM, FD_READ | FD_WRITE | FD_OOB | FD_ACCEPT | FD_CONNECT | FD_CLOSE);
+			if (!bFlag)
 			{
-				AfxMessageBox(_T("Socket错误!"));
+				AfxMessageBox(_T("Socket创建失败!"));
 				m_srvrSocket.Close();
 				PostQuitMessage(0);
 
 				return;
 			}
+
+			// 禁用再次启动按钮
+			GetDlgItem(IDC_BN_START)->EnableWindow(FALSE);
+
+			//监听成功,等待连接请求
+			if (!m_srvrSocket.Listen())//如果监听失败
+			{
+				int nErrorCode = m_srvrSocket.GetLastError();	//检测错误信息
+				if (nErrorCode != WSAEWOULDBLOCK)				//如果不是线程阻塞
+				{
+					AfxMessageBox(_T("Socket错误!"));
+					m_srvrSocket.Close();
+					PostQuitMessage(0);
+
+					return;
+				}
+			}
 		}
+	}
+	catch (std::exception &e){
+		LOGE(e.what());
+	}
+	catch (...){
+		LOGE("Unknown Error!");
 	}
 }
 
