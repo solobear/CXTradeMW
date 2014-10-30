@@ -57,6 +57,9 @@
     <ClInclude Include="log4z.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CXTradeMWConns.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CXTradeMW.cpp">
@@ -89,6 +92,9 @@
     <ClCompile Include="log4z.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CXTradeMWConns.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CXTradeMW.rc">
@@ -109,9 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="api\CXTradeApi.lib">
-      <Filter>头文件</Filter>
-    </Library>
-    <Library Include="libs\jsoncpp\jsoncpp.lib">
       <Filter>头文件</Filter>
     </Library>
   </ItemGroup>

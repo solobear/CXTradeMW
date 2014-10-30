@@ -3,6 +3,7 @@
 #include "afxsock.h"
 #include "api/TradeApi.h"
 #include "Lock.h" 
+#include "CXTradeMWSocketListener.h"
 
 using namespace std;
 
@@ -11,8 +12,14 @@ class CXMWSocket :
 	public CAsyncSocket
 {
 public:
-	CXMWSocket(void);
+	CXMWSocket();
 	virtual ~CXMWSocket(void);
+
+public:
+	CString m_strAddr;
+	CString m_strIP;
+	UINT m_nPort;
+	void ParseConnInfo();
 
 public:
 	// Funcs
@@ -39,8 +46,8 @@ protected:
 	HANDLE hApiRespThread;
 
 	// 账号
-	CString username;
-	CString password;
+	CString m_username;
+	CString m_password;
 
 protected:
 	// 消息长度

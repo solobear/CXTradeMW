@@ -7,6 +7,7 @@
 #include "CXTradeMWCommand.h"
 #include "CXTradeMWUtils.h"
 #include "CXTradeMWConfig.h"
+#include "CXTradeMWConns.h"
 #include "CXTradeSpiImpl.h"
 #include "api/TradeApi.h"
 #include "log4z.h"
@@ -19,9 +20,10 @@ using namespace Json;
 int CXMWSocket::COUNT = 0;
 
 ///
-CXMWSocket::CXMWSocket(void)
+CXMWSocket::CXMWSocket()
 	: m_nLength(0)
 {
+	//
 	STOP = false;
 
 	// 初始化
@@ -40,10 +42,51 @@ CXMWSocket::~CXMWSocket(void)
 	LOGI("--Done!");
 	LOGI("");
 	LOGI("");
+}
+
+
+/// 保存连接信息
+void CXMWSocket::ParseConnInfo(){
+	// IP和端口
+	GetPeerName(m_strIP, m_nPort);
+	m_strAddr.Format("%s:%d", m_strIP, m_nPort);
+}
+
+
+
+///
+void CXMWSocket::OnClose(int nErrorCode){
+	//LOGD("--2.0 OnClose");
+
+	// STOP
+	STOP = true;
 
 	// 释放 TradeAPI
-	pApi = NULL;
+	if (NULL != pApi){
+		pApi->Release();
+		pApi = NULL;
+		Sleep(300);
+	}
+
+	// 删除 SPI
+	if (NULL != pSpi){
+		delete pSpi;
+	}
+
+	// 停socket
+	if (m_hSocket != INVALID_SOCKET)
+	{
+		LOGI("--断开该Socket连接");
+		Close();
+	}
+
+	//
+	CAsyncSocket::OnClose(nErrorCode);
+
+	// Delete
+	delete this;
 }
+
 
 
 ///
@@ -76,8 +119,8 @@ void CXMWSocket::OnReceive(int nErrorCode)
 			case REQ_CONNECT:
 				LOGI("--登陆CX交易接口:");
 				if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
-					username = jsonRoot["username"].asCString();
-					password = jsonRoot["password"].asCString();
+					m_username = jsonRoot["username"].asCString();
+					m_password = jsonRoot["password"].asCString();
 
 					//启动交易接口: 请求线程和回传线程
 					hApiReqThread = AfxBeginThread((AFX_THREADPROC)CXTradeApiReqThread, this);
@@ -266,7 +309,13 @@ void CXMWSocket::OnReceive(int nErrorCode)
 			}
 		}
 		else{
-			LOGE("--ERROR: 无效请求" << m_recvBuf);
+			LOGE("--ERROR，无效请求：" << m_recvBuf);
+			CXTradeMWConns::Instance()->InsertIntoBlackList(this->m_strIP);
+
+			if (CXTradeMWConns::Instance()->InBlackList(this->m_strIP)){
+				LOGW("--断开连接，拒绝服务 ");
+				Close();
+			}
 		}
 	}
 	catch (std::exception &ex)
@@ -290,35 +339,6 @@ void CXMWSocket::OnSend(int nErrorCode)
 	/////////////////////////////////////////
 	CAsyncSocket::OnSend(nErrorCode);
 }
-
-///
-void CXMWSocket::OnClose(int nErrorCode){
-	//LOGD("--2.0 OnClose");
-
-	// STOP
-	STOP = true;
-
-	if (pApi != NULL){
-		// 停止交易接口
-		pApi->Release();
-
-		// 删除SPI
-		delete pSpi;
-	}
-
-	// 停socket
-	if (m_hSocket != INVALID_SOCKET)
-	{
-		LOGI("--断开该Socket连接");
-		Close();
-	}
-
-	// Delete
-	delete this;
-
-	CAsyncSocket::OnClose(nErrorCode);
-}
-
 
 
 ///
@@ -361,7 +381,7 @@ void CXMWSocket::SendBackTradeData()
 				// 仅仅 LogLevel=DEBUG 的时候才显示内容
 				if (CXTradeMWConfig::Instance()->LogLevel()<LOG_LEVEL_INFO){
 					m_sendBuf[strlen(m_sendBuf) - 1] = '\0';
-					LOGI("--发送数据: " << m_sendBuf);
+					LOGI("--发送数据: " << m_strIP << ":" << m_nPort << " - " << m_sendBuf);
 				}
 
 				//重置Buf
@@ -372,7 +392,7 @@ void CXMWSocket::SendBackTradeData()
 			}
 
 			// 重新竞争上岗
-			Sleep(20);
+			Sleep(0);
 		}
 		catch (std::exception &e){
 			cout << e.what() << endl;
@@ -389,11 +409,9 @@ void CXMWSocket::Enque(string str){
 		}
 
 		//LOGD("--  收到数据, size: " << m_sendQue.size() << " = ");
-
 		m_lock.Lock();
 		m_sendQue.push_back(str);
 		m_lock.Unlock();
-
 		//LOGD("--存数据完毕.");
 	}
 	catch (std::exception &e){
@@ -440,11 +458,12 @@ void CXMWSocket::Login()
 
 		//用户名/密码
 		//LOGI("--CXTradeApi| Login with " << username);
-		char* u = new char[64];
-		char* p = new char[64];
-		strcpy_s(u, 64, username);
-		strcpy_s(p, 64, password);
-		LOGI("--CXTradeApi | Login as " << u);
+		char *u = m_username.GetBuffer(0);
+		m_username.ReleaseBuffer();
+		char *p = m_password.GetBuffer(0);
+		m_password.ReleaseBuffer();
+
+		LOGW("--CXTradeApi | Login as " << u);
 		pApi->ReqUserLogin(u, p);
 
 		pApi->Join();
@@ -452,5 +471,8 @@ void CXMWSocket::Login()
 	}
 	catch (std::exception &e){
 		LOGE(e.what());
+	}
+	catch (...){
+		LOGE("接口未知错误。");
 	}
 }

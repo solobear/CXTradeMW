@@ -69,7 +69,7 @@ void CXTradeSpiImpl::OnRtnQuote(const CXRealTimeQuote *quote)
 			jsonRoot[RESPISLAST] = true;
 
 			//TODO 生成Json并送数据进队列
-			//SendBack(jsonRoot);
+			SendBack(jsonRoot);
 		}
 		catch (std::exception &ex)
 		{

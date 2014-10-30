@@ -10,7 +10,8 @@ import android.test.ActivityInstrumentationTestCase2;
 public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> {
 	private static LogUtils logger = LogUtils.getLog(TestCXTrade.class);
 
-	private CXTradeMWClient client;
+	private String mwHost;
+	private int mwPort;
 
 	/**
 	 * 
@@ -27,11 +28,9 @@ public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> 
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		logger.info("--连接中间件");
-		CXTradeMWSpi spi = new CXTradeMWSpiImpl();
-		client = new CXTradeMWClient(spi);
-		//client.connect("182.254.133.20", 7190); 
-        client.connect("10.0.2.2", 7190);//Localhost
+		mwHost = "182.254.133.20";
+		//mwHost = "10.0.2.2";
+		mwPort = 7190;
 	}
 
 	/*
@@ -40,9 +39,6 @@ public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> 
 	 * 
 	 */
 	protected void tearDown() throws Exception {
-		sleep(20000);
-		client.close();
-
 		super.tearDown();
 	}
 
@@ -52,42 +48,66 @@ public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> 
 	public void testCXMWClient() {
 
 		try {
-			logger.info("--登陆!");
-			client.login("003098765432106", "123456");
+			logger.info("--连接中间件1");
+			CXTradeMWSpi spi = new CXTradeMWSpiImpl();
+			CXTradeMWClient client = new CXTradeMWClient(spi);
+			client.connect(mwHost, mwPort); 
+			
+			logger.info("--登陆1");
+			client.login("003098765432105", "123456");
 
 			sleep(5000);
-			
-			logger.info("--账户信息!");
+			logger.info("--账户信息1");
 			client.reqQryMarketStatus();
 			client.reqQryCommodity();
 			client.reqQryAccountInfo();
 			
+			// 多登录
+			sleep(10000);
+			SyncClientsTest("003098765432103", "123456");
+			
 			sleep(5000);
+			client.close();
+
 			
-/*
-			logger.info("--连接中间件");
-			CXTradeMWSpi spi = new CXTradeMWSpiImpl();
-			CXTradeMWClient client2 = new CXTradeMWClient(spi);
-			//client.connect("182.254.133.20", 7190); 
-			client2.connect("10.0.2.2", 7190);//Localhost
-			
-			logger.info("--登陆!");
-			sleep(3000);
-			client2.login("003098765432108", "123456");
-			sleep(3000);
-			client2.reqQryMarketStatus();
-			sleep(1000);
-			client2.reqQryCommodity();
-			client2.reqQryAccountInfo();
-			
-			client2.reqQryCommodity();
-			
-			*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	
+	/**
+	 * @param pass 
+	 * @param user 
+	 * 
+	 */
+	public void SyncClientsTest(String user, String pass) {
+
+		try {
+			logger.info("--连接中间件2");
+			CXTradeMWSpi spi = new CXTradeMWSpiImpl();
+			CXTradeMWClient client2 = new CXTradeMWClient(spi);
+			client2.connect(mwHost, mwPort); 
+			
+			sleep(3000);
+			logger.info("--登陆2");
+			client2.login(user, pass);
+			
+			sleep(3000);
+			logger.info("--账户信息2");
+			client2.reqQryMarketStatus();
+			client2.reqQryCommodity();
+			client2.reqQryAccountInfo();
+			
+			sleep(30000);
+			client2.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	/**
 	 * Sleep
 	 */

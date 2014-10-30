@@ -57,12 +57,14 @@
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>D:\Program Files\boost_1_55_0;</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>nafxcwd.lib;libcmtd.lib;</AdditionalDependencies>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalDependencies>nafxcwd.lib;libs\jsoncpp\debug\jsoncpp.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
       <AdditionalLibraryDirectories>D:\Program Files\boost_1_55_0\stage\lib</AdditionalLibraryDirectories>
@@ -102,7 +104,7 @@ copy /y "$(ProjectDir)conf\Log4Z.cfg" "$(TargetDir)";</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>nafxcw.lib;libcmt.lib;</AdditionalDependencies>
+      <AdditionalDependencies>nafxcw.lib;libcmt.lib;libs\jsoncpp\release\jsoncpp.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>
@@ -140,6 +142,7 @@ copy /y "$(ProjectDir)conf\Log4Z.cfg" "$(TargetDir)";</Command>
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="CXTradeMWConns.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CXTradeMWSocket.cpp" />
@@ -155,6 +158,7 @@ copy /y "$(ProjectDir)conf\Log4Z.cfg" "$(TargetDir)";</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="CXTradeMWConns.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CXTradeMW.rc" />
@@ -169,7 +173,6 @@ copy /y "$(ProjectDir)conf\Log4Z.cfg" "$(TargetDir)";</Command>
   </ItemGroup>
   <ItemGroup>
     <Library Include="api\CXTradeApi.lib" />
-    <Library Include="libs\jsoncpp\jsoncpp.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
