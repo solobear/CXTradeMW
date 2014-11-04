@@ -36,11 +36,9 @@ protected:
 	// CXTradeApi: Req and Resp
 	CTradeApi* pApi;
 	static int CXTradeApiReqThread(LPVOID pParam);
-	void Login();              // 登陆
 
 	CTradeSpi* pSpi;
 	static int CXTradeApiRespThread(LPVOID pParam);
-	void SendBackTradeData();  //数据回传
 
 	HANDLE hApiReqThread;
 	HANDLE hApiRespThread;
@@ -48,6 +46,12 @@ protected:
 	// 账号
 	CString m_username;
 	CString m_password;
+
+protected:
+	void SendBackTradeData();  //数据回传
+
+	void Login();              // 登陆
+	void Logout();             // 退出
 
 protected:
 	// 消息长度

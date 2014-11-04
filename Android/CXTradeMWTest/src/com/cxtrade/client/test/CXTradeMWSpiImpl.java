@@ -1,5 +1,6 @@
 package com.cxtrade.client.test;
 
+import com.cxtrade.mw.client.CXTradeMWClient;
 import com.cxtrade.mw.client.CXTradeMWSpi;
 import com.cxtrade.mw.client.reqresp.CTMWRespCommand;
 import com.cxtrade.mw.client.reqresp.ResponseMsg;
@@ -12,8 +13,10 @@ import com.google.gson.JsonObject;
  * 
  */
 public class CXTradeMWSpiImpl implements CXTradeMWSpi {
-	private static LogUtils logger = LogUtils.getLog(CXTradeMWSpiImpl.class);
+	private LogUtils logger = LogUtils.getLog(CXTradeMWSpiImpl.class);
 
+	private CXTradeMWClient client = null;
+	
 	/**
 	 * @param responseJsonMsg
 	 * 
@@ -30,7 +33,7 @@ public class CXTradeMWSpiImpl implements CXTradeMWSpi {
 	 *			    CX_MSG_STATUS_INIT_FAILED    = 5,
 	 */
 	public void receiveJsonMsg(String responseJsonMsg) {
-		logger.info("收到消息:" + responseJsonMsg);
+		//logger.info(Thread.currentThread().getName() + " 收到消息:" + responseJsonMsg);
 
 		// 处理第一层消息结构
 		Gson gson = new Gson();
@@ -42,17 +45,24 @@ public class CXTradeMWSpiImpl implements CXTradeMWSpi {
 			logger.info("RetCode:" + jsonObject.get("RetCode").getAsInt());
 			if(jsonObject.get("RetCode").getAsInt()!=99999){
 				// 登陆失败
+				if(client!=null){
+					client.close();
+				}
 			}else{
 				// 登陆成功
-				
 			}
 			break;
-		case CTMWRespCommand.RESP_OnRspQryAccountInfo:
-			logger.info("" + responseMsg.getRespDesc());
+		case CTMWRespCommand.RESP_OnRtnQuote:
+			//logger.info("" + responseMsg.getRespDesc());
 			break;
 		default:
-			logger.info("" + responseMsg.getRespDesc());
+			logger.info(Thread.currentThread().getName() + " 收到消息:" + responseJsonMsg);
 			break;
 		}
+	}
+
+	@Override
+	public void setClient(CXTradeMWClient cxTradeMWClient) {
+		client = cxTradeMWClient;		
 	}
 }

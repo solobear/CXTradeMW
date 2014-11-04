@@ -13,4 +13,6 @@ public interface CXTradeMWSpi {
 	 * @param responseJsonMsg
 	 */
 	public void receiveJsonMsg(String responseJsonMsg);
+
+	public void setClient(CXTradeMWClient cxTradeMWClient);
 }

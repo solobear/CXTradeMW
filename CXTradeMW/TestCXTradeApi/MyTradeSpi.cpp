@@ -12,7 +12,9 @@ void CMyTradeSpi::OnRtnUserLogin(const CXProcessResult *result)
 	{
 		printf("[TE] Login Fail! Ret:%d, Msg:%s\n",result->RetCode, result->Message);
 	}
-	m_pTradeApi->ReqQryAccountInfo();
+	m_pTradeApi->Release();
+	delete this;
+	//m_pTradeApi->ReqQryAccountInfo();
 }
 
 void CMyTradeSpi::OnRtnQuote( const CXRealTimeQuote *Quote )

@@ -60,12 +60,12 @@ class CXTradeMWSocket {
 		// 输出
 		mWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
 
-		// 启动数据接收线程
-		startListener();
-
 		// 检查是否连接成功
 		logger.info("Socket Client status = " + isConnected());
 		mCanReadSocekt = isConnected();
+		
+		// 启动数据接收线程
+		startListener();
 	}
 
 	/**
@@ -86,6 +86,7 @@ class CXTradeMWSocket {
 			@Override
 			public void run() {
 				try {
+					logger.info("启动数据读取线程。。。");
 					while (mCanReadSocekt) {
 						// 读数据
 						String result = mReader.readLine();
@@ -98,6 +99,7 @@ class CXTradeMWSocket {
 						// 交给CPU选择
 						Thread.sleep(0);
 					}
+					logger.info("数据读取线程关闭！");
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 				}
@@ -137,8 +139,10 @@ class CXTradeMWSocket {
 		String jsonReq = gson.toJson(map);
 		
 		// 发送请求
-		mWriter.write(jsonReq);
-		mWriter.flush();
+		if(null != mWriter){
+			mWriter.write(jsonReq);
+			mWriter.flush();
+		}
 	}
 	
 	/**
@@ -194,5 +198,7 @@ class CXTradeMWSocket {
 		if (null != ex) {
 			throw ex;
 		}
+		
+		logger.info("中间件连接关闭！");
 	}
 }

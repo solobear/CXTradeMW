@@ -145,23 +145,27 @@ void ShowTraderCommand(CMyTradeSpi* p, bool print=false){
 
 int main(int argc, char* argv[])
 {
-	CTradeApi *pApi = CTradeApi::CreateTradeApi(".\\log\\"); 
-	pApi->RegisterFront("183.62.250.18",9745);
-	pApi->SetAppMessage("test1","123456","874987497234");
-	CMyTradeSpi *spi = new CMyTradeSpi(pApi);
-	pApi->RegisterSpi(spi);
-	int n = pApi->Init();
-	if(n)
-	{
-		printf("error !");
-		return -1;
+	try{
+		CTradeApi *pApi = CTradeApi::CreateTradeApi(".\\log\\");
+		pApi->RegisterFront("183.62.250.18", 9745);
+		pApi->SetAppMessage("test1", "123456", "874987497234");
+		CMyTradeSpi *spi = new CMyTradeSpi(pApi);
+		pApi->RegisterSpi(spi);
+		int n = pApi->Init();
+		if (n)
+		{
+			printf("error !");
+			return -1;
+		}
+		//pApi->ReqUserLogin("003098765432103", "123456");
+		ShowTraderCommand(spi, true);
+
+		pApi->Join();
 	}
-	//pApi->ReqUserLogin("003098765432103", "123456");
-
-
-	ShowTraderCommand(spi,true); 
-
-	pApi->Join();
+	catch (std::exception &e){
+		cout << e.what();
+		Sleep(20000);
+	}
 	return 0;
 }
 
