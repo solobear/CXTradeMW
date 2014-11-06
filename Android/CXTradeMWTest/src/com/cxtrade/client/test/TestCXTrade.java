@@ -41,11 +41,12 @@ public class TestCXTrade extends ActivityInstrumentationTestCase2<MainActivity> 
 			logger.info(Thread.currentThread().getName() + " 线程运行开始!");
 			Thread thread1 = new Thread(new MultiConnectionsThread());
 			Thread thread2 = new Thread(new MultiConnectionsThread());
+			Thread thread3 = new Thread(new MultiConnectionsThread());
 			thread1.start();
-			sleep(2000);
 			thread2.start();
+			thread3.start();
 			
-			sleep(50000);
+			sleep(35000);
 			logger.info(Thread.currentThread().getName() + " 线程运行结束!");
 		} catch (Exception e) {
 			e.printStackTrace();

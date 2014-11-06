@@ -22,7 +22,7 @@ void CXUtils::CleanSlash(char *str)
 void CXUtils::PrintCurrentDir(){
 	char buffer[1024];
 	_getcwd(buffer, 1024);
-	LOGI("--Current Dir: " << buffer);
+	//LOGD("--Current Dir: " << buffer);
 }
 
 //检查文件夹是否存在，不存在则创建之  
@@ -36,7 +36,7 @@ int CXUtils::CheckDir(char* dir)
 	memset(TempDir, '\0', sizeof(TempDir));
 	sprintf_s(TempDir, dir);
 	strcat_s(TempDir, "\\");
-	strcat_s(TempDir, ".temp.fortest");
+	//strcat_s(TempDir, ".temp.fortest");
 
 	fopen_s(&fp, TempDir, "w");
 	if (!fp)

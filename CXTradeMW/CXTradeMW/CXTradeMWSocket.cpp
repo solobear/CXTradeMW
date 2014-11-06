@@ -16,8 +16,9 @@ using namespace zsummer::log4z;
 using namespace std;
 using namespace Json;
 
-/// COUNT
+/// 全局变量
 int CXMWSocket::COUNT = 0;
+Mutex CXMWSocket::M_TradeLock;
 
 ///
 CXMWSocket::CXMWSocket()
@@ -42,8 +43,7 @@ CXMWSocket::~CXMWSocket(void)
 	// Try Logout
 	Logout();
 
-	LOGI("--Done!");
-	LOGI("");
+	LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " DONE!");
 	LOGI("");
 }
 
@@ -87,13 +87,13 @@ void CXMWSocket::OnReceive(int nErrorCode)
 			}
 
 			// 在线检查 (除非是登陆动作)
-			if (commandID != REQ_CONNECT && (NULL == pApi || STOP)){  // 停止或者退出状态
-				LOGE("--账户未登录:" << m_recvBuf);
+			if ((commandID != REQ_CONNECT  && commandID != REQ_RELEASE) && (NULL == pApi || STOP)){  // 停止或者退出状态
+				LOGE("--" << m_strIP << ":" << m_nPort << " " << m_username << " 账户未登录:" << m_recvBuf);
 			}
 			else{
 				switch (commandID){
 				case REQ_CONNECT:
-					LOGI("--登陆CX交易接口:");
+					LOGI("--" << m_strIP << ":" << m_nPort << " 登陆CX交易接口");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						Json::Value jsonUsername;     // Json username
 						Json::Value jsonPassword;     // Json password
@@ -106,14 +106,15 @@ void CXMWSocket::OnReceive(int nErrorCode)
 							//启动交易接口: 请求线程和回传线程
 							hApiReqThread = AfxBeginThread((AFX_THREADPROC)CXTradeApiReqThread, this);
 							hApiRespThread = AfxBeginThread((AFX_THREADPROC)CXTradeApiRespThread, this);
+							//LOGD("启动。。。");
 						}
 						else{
-							LOGD("-- 登陆失败，数据异常: " << m_recvBuf);
+							LOGD("--" << m_strIP << ":" << m_nPort << " " << m_username << " 登陆失败，数据异常: " << m_recvBuf);
 						}
 					}
 					break;
 				case Req_OpenMarketOrder:
-					LOGI("--收到请求：CommandID=" << commandID << " OpenMarketOrder");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " OpenMarketOrder");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						CXOpenMarketOrderParam param;
 						param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -126,7 +127,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 					}
 					break;
 				case Req_CloseMarketOrder:
-					LOGI("--收到请求：CommandID=" << commandID << " Req_CloseMarketOrder");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " Req_CloseMarketOrder");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						CXCloseMarketOrderParam param;
 						param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -139,7 +140,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 					}
 					break;
 				case Req_OpenLimitOrder:
-					LOGI("--收到请求：CommandID=" << commandID << " Req_OpenLimitOrder");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " Req_OpenLimitOrder");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						CXOpenLimitOrderParam param;
 						param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -154,7 +155,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 					}
 					break;
 				case Req_LimitClosePosition:
-					LOGI("--收到请求：CommandID=" << commandID << " Req_LimitClosePosition");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " Req_LimitClosePosition");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						CXCloseLimitOrderParam param;
 						param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -168,7 +169,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 					}
 					break;
 				case Req_LimitRevoke:
-					LOGI("--收到请求：CommandID=" << commandID << " Req_LimitRevoke");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " Req_LimitRevoke");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						CXLimitRevokeParam param;
 						param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -179,7 +180,7 @@ void CXMWSocket::OnReceive(int nErrorCode)
 					}
 					break;
 				case Req_CloseMarketOrderMany:
-					LOGI("--收到请求：CommandID=" << commandID << " Req_CloseMarketOrderMany");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " Req_CloseMarketOrderMany");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						CXCloseMarketOrderManyParam param;
 						param.nCommodityID = jsonRoot["nCommodityID"].asInt();
@@ -192,56 +193,56 @@ void CXMWSocket::OnReceive(int nErrorCode)
 					}
 					break;
 				case ReqQry_AccountInfo:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_AccountInfo");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_AccountInfo");
 					pApi->ReqQryAccountInfo();
 					break;
 				case ReqQry_Commodity:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_Commodity");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_Commodity");
 					pApi->ReqQryCommodity();
 					break;
 				case ReqQry_PositionOrder:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_PositionOrder");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_PositionOrder");
 					pApi->ReqQryPositionOrder();
 					break;
 				case ReqQry_LimitOrder:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_LimitOrder");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_LimitOrder");
 					pApi->ReqQryLimitOrder();
 					break;
 				case ReqQry_ClosePosition:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_ClosePosition");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_ClosePosition");
 					pApi->ReqQryClosePosition();
 					break;
 				case ReqQry_HoldPositionTotal:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_HoldPositionTotal");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_HoldPositionTotal");
 					pApi->ReqQryHoldPositionTotal();
 					break;
 				case ReqQry_MarketStatus:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_MarketStatus");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_MarketStatus");
 					pApi->ReqQryMarketStatus();
 					break;
 				case ReqQry_HoldPositionByID:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_HoldPositionByID");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_HoldPositionByID");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						long nHoldPositionID = jsonRoot["nHoldPositionID"].asUInt();
 						pApi->ReqQryHoldPositionByID(nHoldPositionID);
 					}
 					break;
 				case ReqQry_LimitOrderByID:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_LimitOrderByID");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_LimitOrderByID");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						long nLimitOrderID = jsonRoot["nLimitOrderID"].asUInt();
 						pApi->ReqQryLimitOrderByID(nLimitOrderID);
 					}
 					break;
 				case ReqQry_ClosePositionByID:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_ClosePositionByID");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_ClosePositionByID");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						long nClosePositionID = jsonRoot["nClosePositionID"].asUInt();
 						pApi->ReqQryClosePositionByID(nClosePositionID);
 					}
 					break;
 				case ReqQry_HoldPositionTotalByCommodityID:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_HoldPositionTotalByCommodityID");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_HoldPositionTotalByCommodityID");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						long nCommodityID = jsonRoot["nCommodityID"].asInt();
 						long nOpenDirector = jsonRoot["nOpenDirector"].asInt();
@@ -249,63 +250,63 @@ void CXMWSocket::OnReceive(int nErrorCode)
 					}
 					break;
 				case ReqQry_CommodityQuote:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_CommodityQuote");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_CommodityQuote");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						long nCommodityID = jsonRoot["nCommodityID"].asInt();
 						pApi->ReqQryCommodityQuote(nCommodityID);
 					}
 					break;
 				case ReqQry_OpenMarketOrderConf:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_OpenMarketOrderConf");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_OpenMarketOrderConf");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						long nCommodityID = jsonRoot["nCommodityID"].asInt();
 						pApi->ReqQryOpenMarketOrderConf(nCommodityID);
 					}
 					break;
 				case ReqQry_OpenLimitOrderConf:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_OpenLimitOrderConf");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_OpenLimitOrderConf");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						long nCommodityID = jsonRoot["nCommodityID"].asInt();
 						pApi->ReqQryOpenLimitOrderConf(nCommodityID);
 					}
 					break;
 				case ReqQry_CloseMarketOrderConf:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_CloseMarketOrderConf");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_CloseMarketOrderConf");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						long nCommodityID = jsonRoot["nCommodityID"].asInt();
 						pApi->ReqQryCloseMarketOrderConf(nCommodityID);
 					}
 					break;
 				case ReqQry_LimitClosePositionConf:
-					LOGI("--收到请求：CommandID=" << commandID << " ReqQry_LimitClosePositionConf");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " ReqQry_LimitClosePositionConf");
 					if (jsonReader.parse(jsonParams.asCString(), jsonRoot)){
 						long nCommodityID = jsonRoot["nCommodityID"].asInt();
 						pApi->ReqQryLimitClosePositionConf(nCommodityID);
 					}
 					break;
 				case REQ_RELEASE:
-					LOGI("--收到请求：CommandID=" << commandID << " Release");
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 收到请求: CommandID=" << commandID << " Release");
 					Logout();
 					break;
 				default:
-					LOGA("--未知请求: " << m_recvBuf);
+					LOGA("--" << m_strIP << ":" << m_nPort << " " << m_username << " 未知请求: " << m_recvBuf);
 					break;
 				}
 			}
 		}
 		else{
-			LOGE("--ERROR，无效请求：" << m_recvBuf);
+			LOGE("--" << m_strIP << ":" << m_nPort << " " << m_username << " ERROR，无效请求：" << m_recvBuf);
 			CXTradeMWConns::Instance()->InsertIntoBlackList(this->m_strIP);
 
 			if (CXTradeMWConns::Instance()->InBlackList(this->m_strIP)){
-				LOGW("--断开连接，拒绝服务 ");
+				LOGW("--" << m_strIP << ":" << m_nPort << " " << m_username << " 断开连接，拒绝服务 ");
 				Close();
 			}
 		}
 	}
 	catch (std::exception &ex)
 	{
-		LOGE("--请求数据异常: " << ex.what());
+		LOGE("--" << m_strIP << ":" << m_nPort << " " << m_username << " 请求数据异常: " << ex.what());
 	}
 
 	//重置Buf
@@ -358,15 +359,15 @@ void CXMWSocket::SendBackTradeData()
 				Send(m_sendBuf, strlen(m_sendBuf));
 
 				// 删除数据
-				m_lock.Lock();
+				m_DataLock.Lock();
 				m_sendQue.pop_front();
-				m_lock.Unlock();
+				m_DataLock.Unlock();
 				//LOGD("--  取后数据, size: " << m_sendQue.size());
 
 				// 仅仅 LogLevel=DEBUG 的时候才显示内容
 				if (CXTradeMWConfig::Instance()->LogLevel()<LOG_LEVEL_INFO){
 					m_sendBuf[strlen(m_sendBuf) - 1] = '\0';
-					LOGI("--发送数据: " << m_strIP << ":" << m_nPort << " - " << m_sendBuf);
+					LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 发送 " << m_sendBuf);
 				}
 
 				//重置Buf
@@ -394,9 +395,9 @@ void CXMWSocket::Enque(string str){
 		}
 
 		//LOGD("--  收到数据, size: " << m_sendQue.size() << " = ");
-		m_lock.Lock();
+		m_DataLock.Lock();
 		m_sendQue.push_back(str);
-		m_lock.Unlock();
+		m_DataLock.Unlock();
 		//LOGD("--存数据完毕.");
 	}
 	catch (std::exception &e){
@@ -419,8 +420,11 @@ int CXMWSocket::CXTradeApiReqThread(LPVOID pParam)
 void CXMWSocket::Login()
 {
 	try{
+		// 登录锁
+		M_TradeLock.Lock();
+
 		CXUtils::PrintCurrentDir();
-		char dir[30] = {0};
+		char dir[30] = { 0 };
 		sprintf_s(dir, "./log/%d", COUNT++);
 
 		CXUtils::CheckDir(dir);
@@ -436,8 +440,8 @@ void CXMWSocket::Login()
 		int res = pApi->Init();
 		if (res)
 		{
-			LOGE("--CXTradeApi Init Failed, Result: " << res);
-			LOGE("交易接口初始化失败!");
+			LOGE("--" << m_strIP << ":" << m_nPort << " " << m_username << " CXTradeApi Init Failed, Result: " << res);
+			LOGE("--" << m_strIP << ":" << m_nPort << " " << m_username << " 交易接口初始化失败!");
 			return;
 		}
 
@@ -448,23 +452,26 @@ void CXMWSocket::Login()
 		char *p = m_password.GetBuffer(0);
 		m_password.ReleaseBuffer();
 
-		LOGW("--CXTradeApi | Login as " << u);
+		LOGW("--" << m_strIP << ":" << m_nPort << " " << m_username << " CXTradeApi Login");
 		pApi->ReqUserLogin(u, p);
 
+		// 登录解锁
+		M_TradeLock.Unlock();
+
+		// Join
 		pApi->Join();
-		LOGI("--退出CX交易接口完毕！");
+		LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 退出CX交易接口");
 	}
 	catch (std::exception &e){
 		LOGE(e.what());
 	}
 	catch (...){
-		LOGE("接口未知错误。");
+		LOGE("--" << m_strIP << ":" << m_nPort << " " << m_username << " 接口未知错误。");
 	}
 	final:{
 		/////////////////////////////////////////////////
 		// 干净退出
 		/////////////////////////////////////////////////
-		//
 		pApi = NULL;
 
 		// 删除 SPI
@@ -478,14 +485,14 @@ void CXMWSocket::Login()
 
 /// CXTradeApi登陆
 void CXMWSocket::Logout(){
-	if (STOP!=true){
+	if (STOP != true){
 		// STOP
 		STOP = true;
 
 		// 释放 TradeAPI
 		if (NULL != pApi){
 			pApi->Release();
-			Sleep(200);
+			pApi = NULL;
 		}
 	}
 }
@@ -503,13 +510,17 @@ void CXMWSocket::OnClose(int nErrorCode){
 	// 停socket
 	if (m_hSocket != INVALID_SOCKET)
 	{
-		LOGI("--断开该Socket连接");
 		Close();
-		Sleep(300);
+		LOGI("--" << m_strIP << ":" << m_nPort << " " << m_username << " 断开客户端连接");
 	}
 
-	//
+	// CAsyncSocket::OnClose
 	CAsyncSocket::OnClose(nErrorCode);
+
+	//等待交易接口干净退出
+	while (NULL != pSpi){
+		Sleep(100);
+	}
 
 	// 删除 实例
 	delete this;

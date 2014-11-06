@@ -33,12 +33,12 @@ void CXMWSocketListener::OnAccept(int nErrorCode)
 			pSocket->ParseConnInfo();
 
 			if (CXTradeMWConns::Instance()->InBlackList(pSocket->m_strIP)){
-				LOGW("--黑名单，拒绝服务: " << pSocket->m_strAddr);
+				LOGW("--" << pSocket->m_strAddr << "  黑名单，拒绝服务。");
 				pSocket->Close();
 				delete pSocket;
 			}
 			else{
-				LOGW("--开始处理连接: " << pSocket->m_strAddr);
+				LOGI("--开始处理连接: " << pSocket->m_strAddr);
 			}
 		}
 		else

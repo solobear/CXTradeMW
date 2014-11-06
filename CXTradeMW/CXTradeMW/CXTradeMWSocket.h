@@ -47,6 +47,8 @@ protected:
 	CString m_username;
 	CString m_password;
 
+	// 交易锁
+	static Mutex M_TradeLock;	      //创建一个交易锁 
 protected:
 	void SendBackTradeData();  //数据回传
 
@@ -62,7 +64,7 @@ protected:
 
 	// 存数据进队列
 	char m_sendBuf[2048];     //发送缓冲区
-	Mutex m_lock;	//创建一个互斥对象 
+	Mutex m_DataLock;	      //创建一个数据锁 
 	deque<string> m_sendQue;  //发送数据队列
 
 public:

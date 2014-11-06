@@ -28,7 +28,7 @@ class CXTradeMWSocket {
 	private CXTradeMWClient mwClient;
 	
 	// Socket Client
-	private static Socket client;
+	private Socket client;
 	
 	private BufferedReader mReader;
 	private PrintWriter mWriter;

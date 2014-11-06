@@ -16,7 +16,9 @@ void CXTradeSpiImpl::SendBack(Json::Value &jsonRoot){
 	//生成Json并送数据进队列
 	FastWriter writer;
 	std::string outData = writer.write(jsonRoot);
-	m_mwSocket->Enque(outData);
+	if(m_mwSocket!=NULL){
+		m_mwSocket->Enque(outData);
+	}
 }
 
 
@@ -39,7 +41,7 @@ void CXTradeSpiImpl::OnRtnUserLogin(const CXProcessResult *result)
 		//生成Json并送数据进队列
 		SendBack(jsonRoot);
 
-		LOGI("--[TE] Login Result! Msg:" << result->Message << " , Ret:" << result->RetCode);
+		LOGW("--[TE] Login Result! Msg:" << result->Message << " , Ret:" << result->RetCode);
 	}
 	catch (std::exception &ex)
 	{

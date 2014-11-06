@@ -25,7 +25,7 @@ public class CXTradeMWClient {
 
 	// Socket
 	private CXTradeMWSocket socket;
-	private String CLOSEDMSG = "中间件连接已关闭。";
+	private String CLOSEDMSG = "连接已关闭！";
 
 	// 消息接收
 	private CXTradeMWSpi tradeMWSpi;
